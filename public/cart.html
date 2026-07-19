@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <title>तुमची कार्ट - Tirumala Marketing</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="navbar"><a href="index.html">⬅️ दुकानाकडे परत जा</a><a href="index.html">Tirumala Marketing</a></div>
+    <div class="cart-container">
+        <h2>🛒 तुमची खरेदी यादी</h2>
+        <div id="cartList"></div>
+        <div class="total-box">एकूण बिल: ₹<span id="totalBill">0</span></div>
+        <h3>📍 डिलिव्हरी पत्ता</h3>
+        <input type="text" id="custName" placeholder="तुमचे पूर्ण नाव">
+        <input type="text" id="custPhone" placeholder="मोबाईल नंबर">
+        <textarea id="custAddress" rows="3" placeholder="पूर्ण पत्ता"></textarea>
+        <button class="btn btn-success" onclick="sendOrder()">ऑर्डर निश्चित करा (COD)</button>
+    </div>
+    <script>
+        let shoppingCart = JSON.parse(localStorage.getItem('tirumala_cart')) || [];
+        function displayCart() {
+            const list = document.getElementById('cartList');
+            const bill = document.getElementById('totalBill');
+            if(shoppingCart.length === 0) { list.innerHTML = '<p style="text-align:center;">कार्ट रिकामी आहे.</p>'; bill.innerText = '0'; return; }
+            let total = 0; list.innerHTML = '';
+            shoppingCart.forEach((item, index) => {
+                total += item.price;
+list.innerHTML += `
+<div class="cart-item">
+    <span>
+        <b>${item.name}</b><br>
+        ${item.weight}
+    </span>
+
+    <div>
+        <span>₹${item.price}</span>
+        <button onclick="removeItem(${index})">❌</button>
+    </div>
+</div>
+`;            });
+            bill.innerText = total;
+        }
+        function removeItem(index) { shoppingCart.splice(index, 1); localStorage.setItem('tirumala_cart', JSON.stringify(shoppingCart)); displayCart(); }
+        document.getElementById('custName').addEventListener('input', (e) => localStorage.setItem('cust_name', e.target.value));
+        document.getElementById('custPhone').addEventListener('input', (e) => localStorage.setItem('cust_phone', e.target.value));
+        document.getElementById('custAddress').addEventListener('input', (e) => localStorage.setItem('cust_address', e.target.value));
+        document.getElementById('custName').value = localStorage.getItem('cust_name') || '';
+        document.getElementById('custPhone').value = localStorage.getItem('cust_phone') || '';
+        document.getElementById('custAddress').value = localStorage.getItem('cust_address') || '';
+        async function sendOrder() {
+            const name = document.getElementById('custName').value;
+            const phone = document.getElementById('custPhone').value;
+            const address = document.getElementById('custAddress').value;
+            if(!name || !phone || !address || shoppingCart.length === 0) { alert('माहिती अपूर्ण आहे!'); return; }
+            const res = await fetch('/api/orders', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, phone, address, items: shoppingCart, totalAmount: Number(document.getElementById('totalBill').innerText) }) });
+const reply = await res.json();
+alert(`🎉 ${reply.message}\nऑर्डर नंबर: ${reply.orderId}`);            localStorage.removeItem('tirumala_cart'); localStorage.removeItem('cust_name'); localStorage.removeItem('cust_phone'); localStorage.removeItem('cust_address');
+            window.location.href = 'index.html';
+        }
+        displayCart();
+    </script>
+</body>
+</html>

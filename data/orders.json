@@ -1,0 +1,20 @@
+[
+  {
+    "orderId": "ORD1784462283851",
+    "customerName": "Ram Govind Nase",
+    "phone": "09422916256",
+    "address": "Upper indiranagar B4 room no.25",
+    "items": [
+      {
+        "id": 1784462246680,
+        "name": "kharodi",
+        "category": "kharodi",
+        "weight": "100gm",
+        "price": 100,
+        "type": "Non-Spicy"
+      }
+    ],
+    "totalAmount": 100,
+    "date": "7/19/2026"
+  }
+]

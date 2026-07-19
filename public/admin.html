@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <title>ॲडमिन पॅनल - Tirumala</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="admin-header">
+        <h2>⚙️ ॲडमिन पॅनल</h2>
+        <div>
+            <a href="index.html" target="_blank" style="color:white; margin-right:20px;">🏪 दुकान पहा</a>
+            <button class="btn-danger" onclick="logout()">Log Out</button>
+        </div>
+    </div>
+    <div class="admin-box">
+        <h3>➕ नवीन पदार्थ जोडा</h3>
+        <input type="text" id="pName" placeholder="नाव"><input type="text" id="pCat" placeholder="वर्ग"><input type="text" id="pWeight" placeholder="वजन"><input type="number" id="pPrice" placeholder="किंमत">
+        <select id="pType"><option value="Spicy">Spicy</option><option value="Non-Spicy">Non-Spicy</option></select>
+        <button class="btn" onclick="save()">सेव्ह करा</button>
+    </div>
+    <div class="admin-box"><h3>📦 स्टॉक सूची</h3><div id="list"></div></div>
+    <script>
+        if (localStorage.getItem('isAdminLoggedIn') !== 'true') { window.location.href = 'login.html'; }
+        async function load() {
+            const res = await fetch('/api/products'); const products = await res.json();
+            const container = document.getElementById('list'); container.innerHTML = '';
+container.innerHTML += `
+<div class="admin-product">
+    <span>
+        <b>${p.name}</b><br>
+        ${p.weight} | ₹${p.price}
+    </span>
+
+    <button class="btn-danger" onclick="del(${p.id})">
+        🗑 Delete
+    </button>
+</div>
+`;        }
+        async function save() {
+            await fetch('/api/admin/products', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: document.getElementById('pName').value, category: document.getElementById('pCat').value, weight: document.getElementById('pWeight').value, price: document.getElementById('pPrice').value, type: document.getElementById('pType').value }) });
+            load(); document.getElementById('pName').value=''; document.getElementById('pPrice').value='';
+        }
+async function del(id) {
+    if (confirm('काढून टाकायचे?')) {
+        await fetch(`/api/admin/products/${id}`, {
+            method: 'DELETE'
+        });
+
+        load();
+    }
+}        function logout() { localStorage.removeItem('isAdminLoggedIn'); window.location.href = 'login.html'; }
+        load();
+    </script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <title>लॉगिन - Tirumala Marketing</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body><div class="login-topbar">
+    <a href="index.html" style="color:white; text-decoration:none;">⬅️ मुख्य दुकान</a></div>
+<div class="login-card">        <h2>🔐 ॲडमिन लॉगिन</h2>
+        <input type="text" id="adminUser" placeholder="युझरनेम">
+        <input type="password" id="adminPass" placeholder="पासवर्ड">
+        <button class="btn" onclick="login()">प्रवेश करा</button>
+    </div>
+    <script>
+        async function login() {
+            const res = await fetch('/api/admin/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username: document.getElementById('adminUser').value, password: document.getElementById('adminPass').value }) });
+            if (res.status === 200) { localStorage.setItem('isAdminLoggedIn', 'true'); window.location.href = 'admin.html'; }
+            else { alert('चुकीचे क्रेडेंशियल्स!'); }
+        }
+    </script>
+</body>
+</html>

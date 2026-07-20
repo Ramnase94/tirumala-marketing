@@ -1,10 +1,288 @@
 [
   {
-    "id": 1784462246680,
+    "id": 1784528379646,
+    "name": "Shev",
+    "category": "fry",
+    "weight": "5000",
+    "price": 1000,
+    "type": "Spicy"
+  },
+  {
+    "id": 1784528403340,
     "name": "kharodi",
-    "category": "kharodi",
-    "weight": "100gm",
-    "price": 100,
+    "category": "fry",
+    "weight": "1000",
+    "price": 300,
     "type": "Non-Spicy"
+  },
+  {
+    "id": 1784530558916,
+    "name": "kharodi",
+    "category": "fry",
+    "weight": "150gm",
+    "price": 149,
+    "type": "Non-Spicy",
+    "desc": "om namah shivay",
+    "image": "images/1784530558908.png"
+  },
+  {
+    "id": 1784532103995,
+    "name": "roasted pinuts",
+    "category": "roast",
+    "weight": "100",
+    "price": 50,
+    "type": "Spicy",
+    "desc": "roasted product",
+    "image": "images/1784532103985.png"
+  },
+  {
+    "id": 1784532518928,
+    "name": "MK",
+    "category": "FRY",
+    "weight": "100GM",
+    "price": 78,
+    "type": "Spicy",
+    "desc": "MK",
+    "image": "images/1784532518922.png"
+  },
+  {
+    "id": 1784533733814,
+    "name": "shev",
+    "category": "fry",
+    "weight": "200",
+    "price": 500,
+    "type": "Spicy",
+    "desc": "excellet",
+    "image": "images/1784533733804.png"
+  },
+  {
+    "id": 1784533741800,
+    "name": "shev",
+    "category": "fry",
+    "weight": "200",
+    "price": 500,
+    "type": "Spicy",
+    "desc": "excellet",
+    "image": "images/1784533741778.png"
+  },
+  {
+    "id": 1784533742610,
+    "name": "shev",
+    "category": "fry",
+    "weight": "200",
+    "price": 500,
+    "type": "Spicy",
+    "desc": "excellet",
+    "image": "images/1784533742603.png"
+  },
+  {
+    "id": 1784533743153,
+    "name": "shev",
+    "category": "fry",
+    "weight": "200",
+    "price": 500,
+    "type": "Spicy",
+    "desc": "excellet",
+    "image": "images/1784533743135.png"
+  },
+  {
+    "id": 1784533743491,
+    "name": "shev",
+    "category": "fry",
+    "weight": "200",
+    "price": 500,
+    "type": "Spicy",
+    "desc": "excellet",
+    "image": "images/1784533743483.png"
+  },
+  {
+    "id": 1784533743803,
+    "name": "shev",
+    "category": "fry",
+    "weight": "200",
+    "price": 500,
+    "type": "Spicy",
+    "desc": "excellet",
+    "image": "images/1784533743785.png"
+  },
+  {
+    "id": 1784533744072,
+    "name": "shev",
+    "category": "fry",
+    "weight": "200",
+    "price": 500,
+    "type": "Spicy",
+    "desc": "excellet",
+    "image": "images/1784533744066.png"
+  },
+  {
+    "id": 1784533754590,
+    "name": "shev",
+    "category": "fry",
+    "weight": "200",
+    "price": 500,
+    "type": "Spicy",
+    "desc": "excellet",
+    "image": "images/1784533754568.png"
+  },
+  {
+    "id": 1784533755305,
+    "name": "shev",
+    "category": "fry",
+    "weight": "200",
+    "price": 500,
+    "type": "Spicy",
+    "desc": "excellet",
+    "image": "images/1784533755300.png"
+  },
+  {
+    "id": 1784533760487,
+    "name": "shev",
+    "category": "fry",
+    "weight": "200",
+    "price": 500,
+    "type": "Spicy",
+    "desc": "excellet",
+    "image": "images/1784533760459.png"
+  },
+  {
+    "id": 1784533764365,
+    "name": "shev",
+    "category": "fry",
+    "weight": "200",
+    "price": 500,
+    "type": "Spicy",
+    "desc": "excellent",
+    "image": "images/1784533764333.png"
+  },
+  {
+    "id": 1784533788939,
+    "name": "ss",
+    "category": "s",
+    "weight": "10",
+    "price": 100,
+    "type": "Spicy",
+    "desc": "s",
+    "image": "images/1784533788933.png"
+  },
+  {
+    "id": 1784533790538,
+    "name": "ss",
+    "category": "s",
+    "weight": "10",
+    "price": 100,
+    "type": "Spicy",
+    "desc": "s",
+    "image": "images/1784533790533.png"
+  },
+  {
+    "id": 1784533791115,
+    "name": "ss",
+    "category": "s",
+    "weight": "10",
+    "price": 100,
+    "type": "Spicy",
+    "desc": "s",
+    "image": "images/1784533791100.png"
+  },
+  {
+    "id": 1784533791322,
+    "name": "ss",
+    "category": "s",
+    "weight": "10",
+    "price": 100,
+    "type": "Spicy",
+    "desc": "s",
+    "image": "images/1784533791319.png"
+  },
+  {
+    "id": 1784533791570,
+    "name": "ss",
+    "category": "s",
+    "weight": "10",
+    "price": 100,
+    "type": "Spicy",
+    "desc": "s",
+    "image": "images/1784533791567.png"
+  },
+  {
+    "id": 1784533791785,
+    "name": "ss",
+    "category": "s",
+    "weight": "10",
+    "price": 100,
+    "type": "Spicy",
+    "desc": "s",
+    "image": "images/1784533791780.png"
+  },
+  {
+    "id": 1784533792025,
+    "name": "ss",
+    "category": "s",
+    "weight": "10",
+    "price": 100,
+    "type": "Spicy",
+    "desc": "s",
+    "image": "images/1784533792010.png"
+  },
+  {
+    "id": 1784533792454,
+    "name": "ss",
+    "category": "s",
+    "weight": "10",
+    "price": 100,
+    "type": "Spicy",
+    "desc": "s",
+    "image": "images/1784533792450.png"
+  },
+  {
+    "id": 1784533834020,
+    "name": "shev",
+    "category": "fry",
+    "weight": "100",
+    "price": 150,
+    "type": "Spicy",
+    "desc": "sss",
+    "image": "images/1784533834007.png"
+  },
+  {
+    "id": 1784533835225,
+    "name": "shev",
+    "category": "fry",
+    "weight": "100",
+    "price": 150,
+    "type": "Spicy",
+    "desc": "sss",
+    "image": "images/1784533835209.png"
+  },
+  {
+    "id": 1784534045552,
+    "name": "r",
+    "category": "r",
+    "weight": "10",
+    "price": 100,
+    "type": "Spicy",
+    "desc": "w",
+    "image": "images/1784534045546.png"
+  },
+  {
+    "id": 1784538988721,
+    "name": "ram",
+    "category": "fry",
+    "weight": "300",
+    "price": 300,
+    "type": "Spicy",
+    "desc": "",
+    "image": "images/1784538988711.png"
+  },
+  {
+    "id": 1784539029726,
+    "name": "raaam",
+    "category": "8",
+    "weight": "88",
+    "price": 888,
+    "type": "Spicy",
+    "desc": "",
+    "image": "images/1784539029713.png"
   }
 ]

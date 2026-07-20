@@ -832,10 +832,7 @@ function displaySnacks(products = fetchedProducts) {
     if (!grid) return;
 
     grid.innerHTML = "";
-
-    products.forEach(snack => {
-        
-console.log(snack.name, snack.image);
+products.forEach(snack => {
         const badgeText =
             snack.type === "Spicy"
             ? "🌶️ Spicy"
@@ -854,7 +851,8 @@ console.log(snack.name, snack.image);
         20% OFF
     </div>
 
-    <img src="${snack.image}" class="product-image" alt="${snack.name}">
+   
+    
 
     <div class="wishlist">❤</div>
 

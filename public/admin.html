@@ -1,11 +1,99 @@
+
+
+
 <!DOCTYPE html>
 <html lang="mr">
 <head>
     <meta charset="UTF-8">
     <title>ॲडमिन पॅनल - Tirumala</title>
     <link rel="stylesheet" href="css/style.css">
-</head>
+    <style>
+        .dashboard-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+
+    gap:15px;
+
+    margin:20px 0;
+
+}
+
+.dash-card{
+
+    background:#fff;
+
+    border-radius:12px;
+
+    padding:20px;
+
+    text-align:center;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.12);
+
+}
+
+.dash-card h2{
+
+    margin:0;
+
+    color:#ff6600;
+
+    font-size:30px;
+
+}
+
+.dash-card p{
+
+    margin-top:10px;
+
+    font-weight:bold;
+
+}
+
+.admin-box,
+.dashboard-card{
+    background:white;
+    border-radius:15px;
+    padding:20px;
+    margin:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+.dashboard-card h2{
+    font-size:32px;
+}
+
+.admin-box h3{
+    margin-bottom:15px;
+}
+
+.dashboard-card h2{
+    color:#ff5722;
+    font-size:32px;
+    display:block;
+}
+
+.pending-box{
+    border-left:6px solid #ff5722;
+}
+
+.pending-box h3{
+    color:#ff5722;
+}
+
+.pending-item{
+    background:#fff5f2;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:10px;
+}
+    </style>
+</head><!--
 <body>
+
+   
     <div class="admin-header">
         <h2>⚙️ ॲडमिन पॅनल</h2>
         <div>
@@ -13,44 +101,1830 @@
             <button class="btn-danger" onclick="logout()">Log Out</button>
         </div>
     </div>
+     <div class="dashboard">
+
+    <div class="card">
+        <h3>📦 Products</h3>
+        <h1 id="totalProducts">0</h1>
+    </div>
+
+    <div class="card">
+        <h3>🛒 Orders</h3>
+        <h1 id="totalOrders">0</h1>
+    </div>
+
+    <div class="card">
+        <h3>💰 Revenue</h3>
+        <h1 id="totalRevenue">₹0</h1>
+    </div>
+
+    <div class="card">
+        <h3>⭐ Reviews</h3>
+        <h1 id="totalReviews">0</h1>
+    </div>
+
+</div>
     <div class="admin-box">
         <h3>➕ नवीन पदार्थ जोडा</h3>
         <input type="text" id="pName" placeholder="नाव"><input type="text" id="pCat" placeholder="वर्ग"><input type="text" id="pWeight" placeholder="वजन"><input type="number" id="pPrice" placeholder="किंमत">
         <select id="pType"><option value="Spicy">Spicy</option><option value="Non-Spicy">Non-Spicy</option></select>
-        <button class="btn" onclick="save()">सेव्ह करा</button>
+        
+<label>🖼 Product Image</label>
+
+<input
+type="file"
+id="pImage"
+accept="image/*"
+onchange="previewImage(event)">
+
+<br><br>
+
+<img
+id="preview"
+src=""
+style="width:180px;height:180px;border-radius:12px;display:none;object-fit:cover;border:2px solid #ff9800;">
+<textarea
+id="pDesc"
+placeholder="Product Description"></textarea>
+        <button id="saveBtn" class="btn" onclick="save()">सेव्ह करा</button>
     </div>
-    <div class="admin-box"><h3>📦 स्टॉक सूची</h3><div id="list"></div></div>
-    <script>
-        if (localStorage.getItem('isAdminLoggedIn') !== 'true') { window.location.href = 'login.html'; }
-        async function load() {
-            const res = await fetch('/api/products'); const products = await res.json();
-            const container = document.getElementById('list'); container.innerHTML = '';
-container.innerHTML += `
-<div class="admin-product">
-    <span>
-        <b>${p.name}</b><br>
-        ${p.weight} | ₹${p.price}
-    </span>
+    <div class="admin-box"><h3>📦 स्टॉक सूची</h3>
+        
+        <div id="list"></div></div>
+<div class="admin-box">
 
-    <button class="btn-danger" onclick="del(${p.id})">
-        🗑 Delete
+    <h3>🔐 Change Password</h3>
+
+    <input
+        type="password"
+        id="oldPass"
+        placeholder="Current Password">
+
+    <input
+        type="password"
+        id="newPass"
+        placeholder="New Password">
+
+    <input
+        type="password"
+        id="confirmPass"
+        placeholder="Confirm New Password">
+
+    <button class="btn" onclick="changePassword()">
+        🔑 Change Password
     </button>
-</div>
-`;        }
-        async function save() {
-            await fetch('/api/admin/products', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: document.getElementById('pName').value, category: document.getElementById('pCat').value, weight: document.getElementById('pWeight').value, price: document.getElementById('pPrice').value, type: document.getElementById('pType').value }) });
-            load(); document.getElementById('pName').value=''; document.getElementById('pPrice').value='';
-        }
-async function del(id) {
-    if (confirm('काढून टाकायचे?')) {
-        await fetch(`/api/admin/products/${id}`, {
-            method: 'DELETE'
-        });
 
-        load();
+</div>
+
+
+
+    <script>
+console.log("Script Loaded");
+let fetchedProducts = [];
+let editingId = null;
+async function changePassword() {
+
+    const currentPassword = document.getElementById("oldPass").value;
+    const newPassword = document.getElementById("newPass").value;
+    const confirmPassword = document.getElementById("confirmPass").value;
+
+    if (newPassword !== confirmPassword) {
+        alert("❌ New Password आणि Confirm Password जुळत नाहीत.");
+        return;
     }
-}        function logout() { localStorage.removeItem('isAdminLoggedIn'); window.location.href = 'login.html'; }
-        load();
+
+    const res = await fetch("/api/admin/change-password", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            currentPassword,
+            newPassword
+        })
+    });
+
+    const data = await res.json();
+
+    alert(data.message);
+
+    if (data.success) {
+        document.getElementById("oldPass").value = "";
+        document.getElementById("newPass").value = "";
+        document.getElementById("confirmPass").value = "";
+    }
+
+}
+
+        if (localStorage.getItem('isAdminLoggedIn') !== 'true') { window.location.href = 'login.html'; }
+           
+
+     async function load() {
+        
+    const res = await fetch('/api/products');
+    
+
+    fetchedProducts = await res.json();
+    document.getElementById("totalProducts").innerText =
+fetchedProducts.length;
+
+    const container = document.getElementById('list');
+
+    container.innerHTML = "";
+
+    fetchedProducts.forEach(p => {
+        console.log("Product:", p);
+
+        container.innerHTML += `
+
+        <div class="admin-product">
+
+            <img
+                src="${p.image}"
+                class="admin-img"
+                alt="${p.name}">
+
+            <div class="admin-info">
+
+                <h3>${p.name}</h3>
+
+                <p>📂 ${p.category}</p>
+
+                <p>📦 ${p.weight}</p>
+
+                <p>💰 ₹${p.price}</p>
+
+                <p>${p.type}</p>
+
+                <p>${p.desc}</p>
+
+            </div>
+
+            <button class="btn" onclick="editProduct(${p.id})">
+                ✏️ Edit
+            </button>
+
+            <button class="btn-danger" onclick="del(${p.id})">
+                🗑 Delete
+            </button>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+    // Dashboard Counter
+    //document.getElementById("totalProducts").innerText = products.length;
+
+
+
+function previewImage(event){
+
+    const file = event.target.files[0];
+
+    if(!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(e){
+
+        document.getElementById("preview").src = e.target.result;
+
+        document.getElementById("preview").style.display = "block";
+
+    }
+
+    reader.readAsDataURL(file);
+
+}async function save() {
+
+    const formData = new FormData();
+
+    formData.append("id", editingId);
+
+    formData.append("name", document.getElementById("pName").value);
+    formData.append("category", document.getElementById("pCat").value);
+    formData.append("weight", document.getElementById("pWeight").value);
+    formData.append("price", document.getElementById("pPrice").value);
+    formData.append("type", document.getElementById("pType").value);
+    formData.append("desc", document.getElementById("pDesc").value);
+
+    if (document.getElementById("pImage").files.length > 0) {
+        formData.append("image", document.getElementById("pImage").files[0]);
+    }
+
+    const url = editingId
+        ? "/api/admin/products/update"
+        : "/api/admin/products";
+
+    const res = await fetch(url, {
+        method: "POST",
+        body: formData
+    });
+
+    const data = await res.json();
+
+    alert(data.message);
+
+    editingId = null;
+
+    document.getElementById("pName").value = "";
+    document.getElementById("pCat").value = "";
+    document.getElementById("pWeight").value = "";
+    document.getElementById("pPrice").value = "";
+    document.getElementById("pType").value = "Spicy";
+    document.getElementById("pDesc").value = "";
+    document.getElementById("pImage").value = "";
+    document.getElementById("preview").style.display = "none";
+
+    load();
+}
+    
+
+
+
+function editProduct(id) {
+
+    const product = fetchedProducts.find(p => p.id === id);
+
+    editingId = id;
+    document.getElementById("preview").src = product.image;
+document.getElementById("preview").style.display = "block";
+document.querySelector(".btn").innerText = "✏️ Update Product";
+//document.querySelector(".btn").innerText = "सेव्ह करा";
+
+    document.getElementById("pName").value = product.name;
+    document.getElementById("pCat").value = product.category;
+    document.getElementById("pWeight").value = product.weight;
+    document.getElementById("pPrice").value = product.price;
+    document.getElementById("pType").value = product.type;
+    document.getElementById("pDesc").value = product.desc;
+
+}
+    async function del(id) {
+
+    if (!confirm("Delete Product?")) return;
+
+    await fetch("/api/admin/products/" + id, {
+        method: "DELETE"
+    });
+
+    load();
+
+}
+
+function logout() {
+
+    localStorage.removeItem("isAdminLoggedIn");
+
+    window.location.href = "login.html";
+
+}
+
+// Page Load
+/*load();
+async function load() {
+
+    console.log("1. load started");
+
+    const res = await fetch('/api/products');
+
+    console.log("2. fetch status:", res.status);
+
+    fetchedProducts = await res.json();
+
+    console.log("3. products:", fetchedProducts);
+
+    document.getElementById("totalProducts").innerText =
+        fetchedProducts.length;
+
+    const container = document.getElementById('list');
+    container.innerHTML = "";
+
+    fetchedProducts.forEach(p => {
+        // ...
+    });
+    
+
+}*/
+// Page Load
+load();
     </script>
+</body>-->
+
+
+<body>
+
+    <div class="admin-layout">
+
+<div class="sidebar">
+
+    <h2>🛒 Tirumala</h2>
+
+    <a href="#">📊 Dashboard</a>
+
+    <a href="#list">📦 Products</a>
+
+    <a href="#changePass">🔐 Password</a>
+
+    <a href="index.html" target="_blank">
+        🏪 View Shop
+    </a>
+
+    <a href="#" onclick="logout()">
+        🚪 Logout
+    </a>
+
+</div>
+
+<div class="main-content">
+
+<div class="admin-header">
+
+    <h2>⚙️ Tirumala Admin Panel</h2>
+
+    <div>
+
+        <a href="index.html"
+           target="_blank"
+           style="color:white;margin-right:20px;">
+           🏪 View Shop
+        </a>
+
+        <button class="btn-danger" onclick="logout()">
+            Logout
+        </button>
+
+    </div>
+
+</div>
+
+
+
+
+<div class="admin-box" id="changePass">
+    <h3>📊 Dashboard</h3>
+
+<div class="dashboard-cards">
+
+    <div class="dashboard-card">
+        <h2 id="totalProducts">0</h2>
+        <p>📦 Products</p>
+    </div>
+    <div class="admin-box">
+
+    <h3>📈 Monthly Sales</h3>
+
+    <canvas id="salesChart" height="100"></canvas>
+
+
+</div>
+<div class="admin-box">
+
+<h3>🥇 Top Selling Products</h3>
+
+    <div id="topProducts">
+    Loading...
+   </div>
+
+</div>
+<div class="admin-box">
+
+<h3>⭐ Latest Feedbacks</h3>
+
+<div id="latestFeedbacks">
+    Loading...
+</div>
+<div class="admin-box pending-box">
+<h3>🔔 Pending Orders</h3>
+
+<div id="pendingOrdersList">
+    Loading...
+</div>
+
+</div>
+
+</div>
+
+<div class="dashboard-card" onclick="showPendingOrders()">        <h2 id="totalOrders">0</h2>
+        <p>🛒 Orders</p>
+    </div>
+
+    <div class="dashboard-card">
+        <h2 id="totalRevenue">₹0</h2>
+        <p>💰 Revenue</p>
+    </div>
+
+    <div class="dashboard-card">
+        <h2 id="totalFeedbacks">0</h2>
+        <p>⭐ Feedbacks</p>
+    </div>
+
+</div>
+
+</div>
+
+
+<div class="admin-box">
+
+<h3 id="formTitle">
+➕ Add Product
+</h3>
+
+<input
+type="text"
+id="pName"
+placeholder="Product Name">
+
+<input
+type="text"
+id="pCat"
+placeholder="Category">
+
+<input
+type="text"
+id="pWeight"
+placeholder="Weight">
+
+<input
+type="number"
+id="pPrice"
+placeholder="Price">
+
+<select id="pType">
+
+<option value="Spicy">
+Spicy
+</option>
+
+<option value="Non-Spicy">
+Non-Spicy
+</option>
+
+</select>
+
+<label>🖼 Product Image</label>
+
+<input
+type="file"
+id="pImage"
+accept="image/*"
+onchange="previewImage(event)">
+
+<br><br>
+
+<img
+id="preview"
+style="width:180px;
+height:180px;
+display:none;
+object-fit:cover;
+border-radius:12px;">
+
+<textarea
+id="pDesc"
+placeholder="Description">
+</textarea>
+
+<button
+id="saveBtn"
+class="btn"
+onclick="save()">
+
+Save Product
+
+</button>
+
+</div>
+<div class="dashboard-grid">
+
+    <div class="dash-card">
+        <h2 id="totalProducts">0</h2>
+        <p>📦 Products</p>
+    </div>
+
+    <div class="dash-card">
+        <h2 id="totalOrders">0</h2>
+        <p>🛒 Orders</p>
+    </div>
+
+<div class="dashboard-card" onclick="showPendingOrders()">        <h2 id="pendingOrders">0</h2>
+        <p>⏳ Pending</p>
+    </div>
+
+    <div class="dash-card">
+        <h2 id="completedOrders">0</h2>
+        <p>✅ Completed</p>
+    </div>
+
+    <div class="dash-card">
+        <h2 id="totalRevenue">₹0</h2>
+        <p>💰 Revenue</p>
+    </div>
+
+</div>
+
+<div class="admin-box">
+
+<h3>📦 Stock List</h3>
+
+<div id="list"></div>
+
+</div>
+<div class="admin-box">
+
+    <h3>🛒 Orders</h3>
+
+    <div id="ordersList">
+
+        No Orders
+
+    </div>
+
+</div>
+
+
+<div class="admin-box">
+
+<h3>🔐 Change Password</h3>
+
+<input
+type="password"
+id="oldPass"
+placeholder="Current Password">
+
+<input
+type="password"
+id="newPass"
+placeholder="New Password">
+
+<input
+type="password"
+id="confirmPass"
+placeholder="Confirm Password">
+
+<button
+class="btn"
+onclick="changePassword()">
+
+Change Password
+
+</button>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+let fetchedOrders = [];
+let fetchedProducts = [];
+let editingId = null;
+
+// -------------------------
+// Load Products
+// -------------------------
+async function load() {
+
+    const res = await fetch("/api/products");
+
+    fetchedProducts = await res.json();
+
+    document.getElementById("totalProducts").innerText = fetchedProducts.length;
+
+    const container = document.getElementById("list");
+
+    container.innerHTML = "";
+
+    fetchedProducts.forEach(p => {
+
+        container.innerHTML += `
+
+        <div class="admin-product">
+
+            <img src="${p.image}" class="admin-img">
+
+            <div class="admin-info">
+
+                <h3>${p.name}</h3>
+
+                <p>📂 ${p.category}</p>
+
+                <p>📦 ${p.weight}</p>
+
+                <p>💰 ₹${p.price}</p>
+
+                <p>${p.type}</p>
+
+                <p>${p.desc}</p>
+
+            </div>
+
+            <button
+                class="btn"
+                onclick="editProduct(${p.id})">
+
+                ✏️ Edit
+
+            </button>
+
+            <button
+                class="btn-danger"
+                onclick="del(${p.id})">
+
+                🗑 Delete
+
+            </button>
+
+        </div>
+
+        `;
+
+    });
+    const dash = await fetch("/api/admin/dashboard");
+const stats = await dash.json();
+
+document.getElementById("totalProducts").innerText = stats.totalProducts;
+document.getElementById("totalOrders").innerText = stats.totalOrders;
+document.getElementById("totalRevenue").innerText = "₹" + stats.totalRevenue;
+document.getElementById("totalFeedbacks").innerText = stats.totalFeedbacks;
+
+}
+
+// ==========================
+// Load Orders
+// ==========================
+
+async function loadOrders(){
+
+    const res = await fetch("/api/admin/orders");
+
+    const orders = await res.json();
+    
+document.getElementById("totalOrders").innerText = orders.length;
+
+const pending = orders.filter(o => o.status === "Pending").length;
+
+const completed = orders.filter(o => o.status === "Completed").length;
+
+const revenue = orders.reduce((sum, o) => sum + Number(o.totalAmount), 0);
+
+document.getElementById("pendingOrders").innerText = pending;
+
+document.getElementById("completedOrders").innerText = completed;
+
+document.getElementById("totalRevenue").innerText = "₹" + revenue;
+console.log("GRAPH TEST", orders);
+const productSales = {};
+
+orders.forEach(order => {
+
+    order.items.forEach(item => {
+
+        if(!productSales[item.name]){
+
+            productSales[item.name] = {
+                qty: 0,
+                amount: 0
+            };
+
+        }
+
+        
+
+        productSales[item.name].qty += 1;
+
+        productSales[item.name].amount += Number(item.price);
+
+    });
+
+});
+/*
+async function loadFeedbacks(){
+
+    const res = await fetch("/api/feedbacks");
+
+    const feedbacks = await res.json();
+
+    console.log("FEEDBACK DATA", feedbacks);
+
+    const container = document.getElementById("latestFeedbacks");
+
+    container.innerHTML = "";
+
+    feedbacks.slice(-5).reverse().forEach(f => {
+
+        container.innerHTML += `
+
+        <div class="admin-product">
+
+            <h3>👤 ${f.customerName}</h3>
+
+            <p>⭐ ${f.rating}/5</p>
+
+            <p>💬 ${f.comment}</p>
+
+            <p>📅 ${f.date}</p>
+
+        </div>
+
+        `;
+
+    });
+
+}
+*/
+async function loadFeedbacks(){
+
+    const res = await fetch("/api/feedbacks");
+
+    const feedbacks = await res.json();
+
+    const container = document.getElementById("latestFeedbacks");
+
+    if(!container) return;
+
+    container.innerHTML = "";
+
+    if(feedbacks.length === 0){
+
+        container.innerHTML = "<p>No Feedback Yet.</p>";
+
+        return;
+
+    }
+
+
+    feedbacks.slice(-5).reverse().forEach(f => {
+
+        container.innerHTML += `
+
+        <div class="admin-product">
+
+            <h3>👤 ${f.customerName}</h3>
+
+            <p>⭐ ${f.rating}/5</p>
+
+            <p>💬 ${f.comment}</p>
+
+            <p>📅 ${f.date}</p>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+
+async function loadPendingOrders(){
+    console.log("PENDING FUNCTION START");
+
+    const res = await fetch("/api/admin/orders");
+
+    const orders = await res.json();
+    console.log("PENDING DATA", orders);
+
+    const container = document.getElementById("pendingOrdersList");
+
+    if(!container) return;
+
+    container.innerHTML = "";
+
+    const pendingOrders = orders.filter(
+        o => o.status === "Pending"
+    );
+
+
+    if(pendingOrders.length === 0){
+
+        container.innerHTML = "<p>No Pending Orders.</p>";
+
+        return;
+
+    }
+
+
+    pendingOrders.slice(0,5).forEach(order => {
+
+        container.innerHTML += `
+
+<div class="pending-item">
+            <h3>🔔 ${order.orderId}</h3>
+
+            <p>👤 ${order.customerName}</p>
+
+            <p>💰 ₹${order.totalAmount}</p>
+
+            <p>📌 ${order.status}</p>
+
+            <p>📅 ${order.date}</p>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+
+async function loadFeedbacks(){
+    console.log("FEEDBACK START");
+    const res = await fetch("/api/feedbacks");
+
+    const feedbacks = await res.json();
+
+    const container = document.getElementById("latestFeedbacks");
+
+    if(!container) return;
+
+    container.innerHTML = "";
+
+    if(feedbacks.length === 0){
+
+        container.innerHTML = "<p>No Feedback Yet.</p>";
+
+        return;
+
+    }
+
+
+    feedbacks.slice(-5).reverse().forEach(f => {
+
+        container.innerHTML += `
+
+        <div class="admin-product">
+
+           <h3>👤 ${f.customerName}</h3>
+
+           <p>⭐ ${f.rating}/5</p>
+
+           <p>💬 ${f.comment}</p>
+            
+           <p>📅 ${f.date}</p>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+
+
+const topContainer = document.getElementById("topProducts");
+
+if(topContainer){
+
+    topContainer.innerHTML = "";
+
+    Object.entries(productSales)
+    .sort((a,b)=> b[1].qty - a[1].qty)
+    .slice(0,5)
+    .forEach(([name,data])=>{
+
+        topContainer.innerHTML += `
+
+        <div class="admin-product">
+
+            <h3>🥇 ${name}</h3>
+
+            <p>📦 Sold: ${data.qty}</p>
+
+            <p>💰 Revenue: ₹${data.amount}</p>
+
+        </div>
+
+        `;
+
+    });
+
+}
+const monthlySales = {};
+
+orders.forEach(order => {
+
+    const month = order.date.split("/")[0];
+
+    if(!monthlySales[month]){
+
+        monthlySales[month] = 0;
+
+    }
+
+    monthlySales[month] += Number(order.totalAmount);
+
+});
+
+
+const ctx = document.getElementById("salesChart");
+if(!ctx){
+    console.log("Canvas not found");
+  
+}
+
+if(ctx)if(window.salesChart instanceof Chart){
+
+    window.salesChart.destroy();
+
+}
+
+    console.log("CREATING CHART");
+    window.salesChart = new Chart(ctx, {
+
+        type:"bar",
+
+        data:{
+
+            labels:Object.keys(monthlySales),
+
+            datasets:[{
+
+                label:"Revenue",
+
+                data:Object.values(monthlySales)
+
+            }]
+
+        },
+
+        options:{
+
+            responsive:true
+
+        }
+
+    
+
+    });
+
+
+    fetchedOrders = orders;
+
+    const container = document.getElementById("ordersList");
+
+    container.innerHTML = "";
+
+    if(orders.length===0){
+
+        container.innerHTML="<p>No Orders Yet.</p>";
+
+    }
+
+    orders.forEach(order=>{
+
+        container.innerHTML += `
+
+        <div class="admin-product">
+
+            <div class="admin-info">
+
+                <h3>${order.orderId}</h3>
+
+                <p>👤 ${order.customerName}</p>
+
+                <p>📞 ${order.phone}</p>
+
+                <p>📍 ${order.address}</p>
+
+                <p>💰 ₹${order.totalAmount}</p>
+
+                <p>📅 ${order.date}</p>
+
+                <p>📌 ${order.status}</p>
+
+            </div>
+
+
+<button class="btn" onclick="viewOrder('${order.orderId}')">
+    👁 View Details
+            </button>  
+
+          
+
+            <button
+                class="btn"
+                onclick="completeOrder('${order.orderId}')">
+
+                ✅ Complete
+
+            </button>
+
+            <button
+                class="btn-danger"
+                onclick="deleteOrder('${order.orderId}')">
+
+                🗑 Delete
+
+            </button>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+// ==========================
+// Complete Order
+// ==========================
+
+async function completeOrder(orderId){
+
+    const res = await fetch("/api/admin/orders/complete",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+
+            orderId
+
+        })
+
+    });
+
+    const data = await res.json();
+
+    alert(data.message);
+
+    loadOrders();
+    
+
+}
+
+
+
+// ==========================
+// Delete Order
+// ==========================
+
+async function deleteOrder(orderId){
+
+    if(!confirm("Delete this Order?")) return;
+
+    await fetch("/api/admin/orders/"+orderId,{
+
+        method:"DELETE"
+
+    });
+
+    loadOrders();
+    
+
+}
+
+function printInvoice(orderId){
+
+    const order = fetchedOrders.find(o => o.orderId === orderId);
+
+    if(!order){
+        alert("Order not found");
+        return;
+    }
+
+    let itemsHTML = "";
+
+    order.items.forEach(item=>{
+
+        itemsHTML += `
+        <tr>
+            <td>${item.name}</td>
+            <td>${item.weight}</td>
+            <td>₹${item.price}</td>
+        </tr>
+        `;
+
+    });
+
+    const invoice = `
+    <html>
+    <head>
+        <title>Invoice</title>
+
+        <style>
+
+        body{
+            font-family:Arial;
+            padding:30px;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+        }
+
+        th,td{
+            border:1px solid #000;
+            padding:8px;
+        }
+
+        h1{
+            text-align:center;
+        }
+
+        </style>
+
+    </head>
+
+    <body>
+
+        <h1>TIRUMALA MARKETING</h1>
+
+        <hr>
+
+        <p><b>Order ID:</b> ${order.orderId}</p>
+
+        <p><b>Customer:</b> ${order.customerName}</p>
+
+        <p><b>Phone:</b> ${order.phone}</p>
+
+        <p><b>Address:</b> ${order.address}</p>
+
+        <p><b>Date:</b> ${order.date}</p>
+
+        <table>
+
+            <tr>
+
+                <th>Product</th>
+
+                <th>Weight</th>
+
+                <th>Price</th>
+
+            </tr>
+
+            ${itemsHTML}
+
+        </table>
+
+        <h2 style="text-align:right">
+            Total : ₹${order.totalAmount}
+        </h2>
+
+    </body>
+
+    </html>
+    `;
+
+    const win = window.open("", "_blank");
+
+    win.document.write(invoice);
+
+    win.document.close();
+
+    win.print();
+
+}
+//---------------------
+// Preview Image
+// -------------------------
+
+function previewImage(event){
+
+    const file = event.target.files[0];
+
+    if(!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(e){
+
+        document.getElementById("preview").src = e.target.result;
+
+        document.getElementById("preview").style.display = "block";
+
+    }
+
+    reader.readAsDataURL(file);
+
+}
+
+// -------------------------
+// Save / Update Product
+// -------------------------
+
+async function save(){
+
+    const formData = new FormData();
+
+    formData.append("id", editingId);
+
+    formData.append("name", document.getElementById("pName").value);
+
+    formData.append("category", document.getElementById("pCat").value);
+
+    formData.append("weight", document.getElementById("pWeight").value);
+
+    formData.append("price", document.getElementById("pPrice").value);
+
+    formData.append("type", document.getElementById("pType").value);
+
+    formData.append("desc", document.getElementById("pDesc").value);
+
+    if(document.getElementById("pImage").files.length>0){
+
+        formData.append("image",
+        document.getElementById("pImage").files[0]);
+
+    }
+
+    const url = editingId
+        ? "/api/admin/products/update"
+        : "/api/admin/products";
+
+    const res = await fetch(url,{
+
+        method:"POST",
+
+        body:formData
+
+    });
+
+    const data = await res.json();
+
+    alert(data.message);
+
+    editingId = null;
+
+    document.getElementById("formTitle").innerText="➕ Add Product";
+
+    document.getElementById("saveBtn").innerText="Save Product";
+
+    clearForm();
+
+    load();
+
+}
+// -------------------------
+// Edit Product
+// -------------------------
+
+function editProduct(id){
+
+    const product = fetchedProducts.find(p => p.id === id);
+
+    if(!product) return;
+
+    editingId = id;
+
+    document.getElementById("formTitle").innerText =
+    "✏️ Update Product";
+
+    document.getElementById("saveBtn").innerText =
+    "Update Product";
+
+    document.getElementById("pName").value = product.name;
+
+    document.getElementById("pCat").value = product.category;
+
+    document.getElementById("pWeight").value = product.weight;
+
+    document.getElementById("pPrice").value = product.price;
+
+    document.getElementById("pType").value = product.type;
+
+    document.getElementById("pDesc").value = product.desc;
+
+    document.getElementById("preview").src = product.image;
+
+    document.getElementById("preview").style.display = "block";
+
+}
+
+// -------------------------
+// Delete Product
+// -------------------------
+
+async function del(id){
+
+    if(!confirm("Delete Product?")) return;
+
+    await fetch("/api/admin/products/"+id,{
+
+        method:"DELETE"
+
+    });
+
+    load();
+
+}
+
+// -------------------------
+// Clear Form
+// -------------------------
+
+function clearForm(){
+
+    document.getElementById("pName").value="";
+
+    document.getElementById("pCat").value="";
+
+    document.getElementById("pWeight").value="";
+
+    document.getElementById("pPrice").value="";
+
+    document.getElementById("pType").value="Spicy";
+
+    document.getElementById("pDesc").value="";
+
+    document.getElementById("pImage").value="";
+
+    document.getElementById("preview").style.display="none";
+
+}
+
+// -------------------------
+// Change Password
+// -------------------------
+
+async function changePassword(){
+
+    const currentPassword =
+    document.getElementById("oldPass").value;
+
+    const newPassword =
+    document.getElementById("newPass").value;
+
+    const confirmPassword =
+    document.getElementById("confirmPass").value;
+
+    if(newPassword!==confirmPassword){
+
+        alert("Passwords do not match");
+
+        return;
+
+    }
+
+    const res = await fetch("/api/admin/change-password",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+
+            currentPassword,
+
+            newPassword
+
+        })
+
+    });
+
+    const data = await res.json();
+
+    alert(data.message);
+
+}
+
+// -------------------------
+// Logout
+// -------------------------
+
+function logout(){
+
+    localStorage.removeItem("isAdminLoggedIn");
+
+    window.location.href="login.html";
+
+}
+
+// -------------------------
+// Start
+// -------------------------
+load();
+loadOrders();
+loadFeedbacks();
+loadPendingOrders();
+
+function viewOrder(orderId) {
+
+    const order = fetchedOrders.find(o => o.orderId === orderId);
+
+    if (!order) return;
+
+    let products = "";
+
+    order.items.forEach(item => {
+
+        products += `
+            <li>
+                <b>${item.name}</b>
+                (${item.weight})
+                - ₹${item.price}
+            </li>
+        `;
+
+    });
+
+    document.getElementById("orderDetails").innerHTML = `
+
+        <h2>🧾 Order Details</h2>
+
+        <hr>
+
+        <p><b>Order ID:</b> ${order.orderId}</p>
+
+        <p><b>Customer:</b> ${order.customerName}</p>
+
+        <p><b>Phone:</b> ${order.phone}</p>
+
+        <p><b>Address:</b> ${order.address}</p>
+
+        <p><b>Status:</b> ${order.status}</p>
+
+        <p><b>Total:</b> ₹${order.totalAmount}</p>
+
+        <h3>📦 Products</h3>
+
+        <ul>
+            ${products}
+        </ul>
+
+    `;
+    window.currentOrder = order;
+    console.log("BUTTON CHECK", 
+    
+    document.getElementById("printInvoiceBtn"));
+
+
+    document.getElementById("orderModal").style.display = "block";
+
+}
+
+function closeOrder() {
+
+    document.getElementById("orderModal").style.display = "none";
+
+}
+
+function printInvoice(orderId){
+
+    const order = fetchedOrders.find(o => o.orderId === orderId);
+
+    if(!order){
+        alert("Order not found");
+        return;
+    }
+
+    let products = "";
+
+    order.items.forEach(item=>{
+
+        products += `
+        <tr>
+            <td>${item.name}</td>
+            <td>${item.weight}</td>
+            <td>₹${item.price}</td>
+        </tr>
+        `;
+
+    });
+
+    const invoice = `
+    <html>
+
+    <head>
+
+    <title>Invoice</title>
+
+    <style>
+
+    body{
+
+        font-family:Arial;
+        padding:30px;
+
+    }
+
+    h1{
+
+        text-align:center;
+
+    }
+
+    table{
+
+        width:100%;
+        border-collapse:collapse;
+        margin-top:20px;
+
+    }
+
+    th,td{
+
+        border:1px solid #000;
+        padding:10px;
+
+    }
+
+    .total{
+
+        text-align:right;
+        margin-top:20px;
+        font-size:20px;
+        font-weight:bold;
+
+    }
+
+    </style>
+
+    </head>
+
+    <body>
+
+    <h1>TIRUMALA MARKETING</h1>
+
+    <hr>
+
+    <p><b>Order ID :</b> ${order.orderId}</p>
+
+    <p><b>Customer :</b> ${order.customerName}</p>
+
+    <p><b>Phone :</b> ${order.phone}</p>
+
+    <p><b>Address :</b> ${order.address}</p>
+
+    <p><b>Date :</b> ${order.date}</p>
+
+    <table>
+
+    <tr>
+
+    <th>Product</th>
+
+    <th>Weight</th>
+
+    <th>Price</th>
+
+    </tr>
+
+    ${products}
+
+    </table>
+
+    <div class="total">
+
+    Total : ₹${order.totalAmount}
+
+    </div>
+
+    </body>
+
+    </html>
+    `;
+
+    const win = window.open("", "_blank");
+
+    win.document.write(invoice);
+
+    win.document.close();
+
+    win.print();
+
+}
+async function downloadInvoicePdf() {
+
+    const { jsPDF } = window.jspdf;
+
+    const doc = new jsPDF();
+
+    const order = window.currentOrder;
+
+    if (!order) return;
+
+    // Header
+    doc.setFillColor(255, 140, 0);
+    doc.rect(0, 0, 210, 30, "F");
+
+    doc.setTextColor(255,255,255);
+    doc.setFontSize(20);
+    doc.text("TIRUMALA MARKETING", 55, 15);
+
+    doc.setFontSize(10);
+    doc.text("Homemade Snacks & Namkeen", 63, 23);
+
+    // Normal Text
+    doc.setTextColor(0,0,0);
+
+    doc.setFontSize(11);
+
+    doc.text("Invoice No : " + order.orderId, 14, 40);
+    doc.text("Date : " + order.date, 140, 40);
+
+    doc.text("Customer : " + order.customerName, 14, 48);
+    doc.text("Phone : " + order.phone, 14, 56);
+    doc.text("Address : " + order.address, 14, 64);
+
+    // Table
+    const rows = [];
+
+    order.items.forEach(item => {
+
+        rows.push([
+            item.name,
+            item.weight,
+            "₹" + item.price
+        ]);
+
+    });
+
+    doc.autoTable({
+
+        startY:75,
+
+        head:[["Product","Weight","Price"]],
+
+        body:rows,
+
+        theme:"grid",
+
+        headStyles:{
+            fillColor:[255,140,0]
+        }
+
+    });
+
+    const finalY = doc.lastAutoTable.finalY + 12;
+
+    doc.setFontSize(14);
+
+    doc.text(
+        "Grand Total : ₹" + order.totalAmount,
+        14,
+        finalY
+    );
+
+    doc.setFontSize(12);
+
+    doc.text(
+        "Status : " + order.status,
+        14,
+        finalY + 10
+    );
+
+    doc.setFontSize(13);
+
+    doc.text(
+        "🙏 Thank You! Visit Again.",
+        60,
+        finalY + 28
+    );
+
+    doc.save(order.orderId + ".pdf");
+
+}
+
+async function loadFeedbacks(){
+
+    const res = await fetch("/api/feedbacks");
+
+    const feedbacks = await res.json();
+
+    console.log("FEEDBACK DATA", feedbacks);
+
+    const container = document.getElementById("latestFeedbacks");
+
+    if(!container) return;
+
+    container.innerHTML = "";
+
+    feedbacks.slice(-5).reverse().forEach(f => {
+
+        container.innerHTML += `
+
+        <div class="admin-product">
+
+            <h3>👤 ${f.customerName}</h3>
+
+            <p>⭐ ${f.rating}/5</p>
+
+            <p>💬 ${f.comment}</p>
+
+            <p>📅 ${f.date}</p>
+
+        </div>
+
+        `;
+
+    });
+
+}
+async function loadPendingOrders(){
+
+    const res = await fetch("/api/admin/orders");
+
+    const orders = await res.json();
+
+    console.log("PENDING DATA", orders);
+
+    const container = document.getElementById("pendingOrdersList");
+
+    if(!container) return;
+
+    container.innerHTML = "";
+
+    const pendingOrders = orders.filter(
+        o => o.status === "Pending"
+    );
+
+
+    if(pendingOrders.length === 0){
+
+        container.innerHTML = "<p>No Pending Orders.</p>";
+
+        return;
+
+    }
+
+
+    pendingOrders.slice(0,5).forEach(order => {
+
+        container.innerHTML += `
+
+        <div class="admin-product">
+
+            <h3>🔔 ${order.orderId}</h3>
+
+            <p>👤 ${order.customerName}</p>
+
+            <p>💰 ₹${order.totalAmount}</p>
+
+            <p>📌 ${order.status}</p>
+
+            <p>📅 ${order.date}</p>
+
+        </div>
+
+        `;
+
+    });
+
+}
+function showPendingOrders(){
+
+    document
+    .getElementById("pendingOrdersList")
+    .scrollIntoView({
+        behavior:"smooth"
+    });
+
+}
+
+
+
+</script>
+</div>
+    </div>
+    <!-- Order Details Modal -->
+
+<div id="orderModal" class="modal">
+
+    <div class="modal-content">
+
+        <span class="close" onclick="closeOrder()">&times;</span>
+
+        <div id="orderDetails"></div>
+      <hr>
+      
+      <button 
+class="btn"
+id="printInvoiceBtn"
+style="margin-top:15px;display:inline-block;"
+onclick="printInvoice()">
+
+🖨 Print Invoice
+
+</button>
+    </div>
+<!--
+<button 
+id="printInvoiceBtn"
+class="btn"
+style="margin-top:15px;display:none;"
+onclick="printInvoice()">
+
+🖨 Print Invoice
+
+</button>-->
+    
+
+</div>
 </body>
 </html>

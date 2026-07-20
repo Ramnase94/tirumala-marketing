@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <title>ॲडमिन पॅनल - Tirumala</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+   
+    <div class="admin-header">
+        <h2>⚙️ ॲडमिन पॅनल</h2>
+        <div>
+            <a href="index.html" target="_blank" style="color:white; margin-right:20px;">🏪 दुकान पहा</a>
+            <button class="btn-danger" onclick="logout()">Log Out</button>
+        </div>
+    </div>
+     <div class="dashboard">
+
+    <div class="card">
+        <h3>📦 Products</h3>
+        <h1 id="totalProducts">0</h1>
+    </div>
+
+    <div class="card">
+        <h3>🛒 Orders</h3>
+        <h1 id="totalOrders">0</h1>
+    </div>
+
+    <div class="card">
+        <h3>💰 Revenue</h3>
+        <h1 id="totalRevenue">₹0</h1>
+    </div>
+
+    <div class="card">
+        <h3>⭐ Reviews</h3>
+        <h1 id="totalReviews">0</h1>
+    </div>
+
+</div>
+    <div class="admin-box">
+        <h3>➕ नवीन पदार्थ जोडा</h3>
+        <input type="text" id="pName" placeholder="नाव"><input type="text" id="pCat" placeholder="वर्ग"><input type="text" id="pWeight" placeholder="वजन"><input type="number" id="pPrice" placeholder="किंमत">
+        <select id="pType"><option value="Spicy">Spicy</option><option value="Non-Spicy">Non-Spicy</option></select>
+        
+<label>🖼 Product Image</label>
+
+<input
+type="file"
+id="pImage"
+accept="image/*"
+onchange="previewImage(event)">
+
+<br><br>
+
+<img
+id="preview"
+src=""
+style="width:180px;height:180px;border-radius:12px;display:none;object-fit:cover;border:2px solid #ff9800;">
+<textarea
+id="pDesc"
+placeholder="Product Description"></textarea>
+        <button id="saveBtn" class="btn" onclick="save()">सेव्ह करा</button>
+    </div>
+    <div class="admin-box"><h3>📦 स्टॉक सूची</h3>
+        
+        <div id="list"></div></div>
+<div class="admin-box">
+
+    <h3>🔐 Change Password</h3>
+
+    <input
+        type="password"
+        id="oldPass"
+        placeholder="Current Password">
+
+    <input
+        type="password"
+        id="newPass"
+        placeholder="New Password">
+
+    <input
+        type="password"
+        id="confirmPass"
+        placeholder="Confirm New Password">
+
+    <button class="btn" onclick="changePassword()">
+        🔑 Change Password
+    </button>
+
+</div>
+
+
+
+    <script>
+console.log("Script Loaded");
+let fetchedProducts = [];
+let editingId = null;
+async function changePassword() {
+
+    const currentPassword = document.getElementById("oldPass").value;
+    const newPassword = document.getElementById("newPass").value;
+    const confirmPassword = document.getElementById("confirmPass").value;
+
+    if (newPassword !== confirmPassword) {
+        alert("❌ New Password आणि Confirm Password जुळत नाहीत.");
+        return;
+    }
+
+    const res = await fetch("/api/admin/change-password", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            currentPassword,
+            newPassword
+        })
+    });
+
+    const data = await res.json();
+
+    alert(data.message);
+
+    if (data.success) {
+        document.getElementById("oldPass").value = "";
+        document.getElementById("newPass").value = "";
+        document.getElementById("confirmPass").value = "";
+    }
+
+}
+
+        if (localStorage.getItem('isAdminLoggedIn') !== 'true') { window.location.href = 'login.html'; }
+           
+
+     async function load() {
+        
+    const res = await fetch('/api/products');
+    
+
+    fetchedProducts = await res.json();
+    document.getElementById("totalProducts").innerText =
+fetchedProducts.length;
+
+    const container = document.getElementById('list');
+
+    container.innerHTML = "";
+
+    fetchedProducts.forEach(p => {
+        console.log("Product:", p);
+
+        container.innerHTML += `
+
+        <div class="admin-product">
+
+            <img
+                src="${p.image}"
+                class="admin-img"
+                alt="${p.name}">
+
+            <div class="admin-info">
+
+                <h3>${p.name}</h3>
+
+                <p>📂 ${p.category}</p>
+
+                <p>📦 ${p.weight}</p>
+
+                <p>💰 ₹${p.price}</p>
+
+                <p>${p.type}</p>
+
+                <p>${p.desc}</p>
+
+            </div>
+
+            <button class="btn" onclick="editProduct(${p.id})">
+                ✏️ Edit
+            </button>
+
+            <button class="btn-danger" onclick="del(${p.id})">
+                🗑 Delete
+            </button>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+    // Dashboard Counter
+    //document.getElementById("totalProducts").innerText = products.length;
+
+
+
+function previewImage(event){
+
+    const file = event.target.files[0];
+
+    if(!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(e){
+
+        document.getElementById("preview").src = e.target.result;
+
+        document.getElementById("preview").style.display = "block";
+
+    }
+
+    reader.readAsDataURL(file);
+
+}async function save() {
+
+    const formData = new FormData();
+
+    formData.append("id", editingId);
+
+    formData.append("name", document.getElementById("pName").value);
+    formData.append("category", document.getElementById("pCat").value);
+    formData.append("weight", document.getElementById("pWeight").value);
+    formData.append("price", document.getElementById("pPrice").value);
+    formData.append("type", document.getElementById("pType").value);
+    formData.append("desc", document.getElementById("pDesc").value);
+
+    if (document.getElementById("pImage").files.length > 0) {
+        formData.append("image", document.getElementById("pImage").files[0]);
+    }
+
+    const url = editingId
+        ? "/api/admin/products/update"
+        : "/api/admin/products";
+
+    const res = await fetch(url, {
+        method: "POST",
+        body: formData
+    });
+
+    const data = await res.json();
+
+    alert(data.message);
+
+    editingId = null;
+
+    document.getElementById("pName").value = "";
+    document.getElementById("pCat").value = "";
+    document.getElementById("pWeight").value = "";
+    document.getElementById("pPrice").value = "";
+    document.getElementById("pType").value = "Spicy";
+    document.getElementById("pDesc").value = "";
+    document.getElementById("pImage").value = "";
+    document.getElementById("preview").style.display = "none";
+
+    load();
+}
+    
+
+
+
+function editProduct(id) {
+
+    const product = fetchedProducts.find(p => p.id === id);
+
+    editingId = id;
+    document.getElementById("preview").src = product.image;
+document.getElementById("preview").style.display = "block";
+document.querySelector(".btn").innerText = "✏️ Update Product";
+//document.querySelector(".btn").innerText = "सेव्ह करा";
+
+    document.getElementById("pName").value = product.name;
+    document.getElementById("pCat").value = product.category;
+    document.getElementById("pWeight").value = product.weight;
+    document.getElementById("pPrice").value = product.price;
+    document.getElementById("pType").value = product.type;
+    document.getElementById("pDesc").value = product.desc;
+
+}
+    async function del(id) {
+
+    if (!confirm("Delete Product?")) return;
+
+    await fetch("/api/admin/products/" + id, {
+        method: "DELETE"
+    });
+
+    load();
+
+}
+
+function logout() {
+
+    localStorage.removeItem("isAdminLoggedIn");
+
+    window.location.href = "login.html";
+
+}
+
+// Page Load
+/*load();
+async function load() {
+
+    console.log("1. load started");
+
+    const res = await fetch('/api/products');
+
+    console.log("2. fetch status:", res.status);
+
+    fetchedProducts = await res.json();
+
+    console.log("3. products:", fetchedProducts);
+
+    document.getElementById("totalProducts").innerText =
+        fetchedProducts.length;
+
+    const container = document.getElementById('list');
+    container.innerHTML = "";
+
+    fetchedProducts.forEach(p => {
+        // ...
+    });
+    
+
+}*/
+// Page Load
+load();
+    </script>
+</body>
+</html>

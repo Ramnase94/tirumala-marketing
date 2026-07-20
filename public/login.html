@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="mr">
 <head>
     <meta charset="UTF-8">
@@ -19,5 +19,548 @@
             else { alert('चुकीचे क्रेडेंशियल्स!'); }
         }
     </script>
+</body>
+</html> 
+
+
+
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login | Tirumala Marketing</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ff6b35,#ff9800);
+}
+
+.login-box{
+
+    width:380px;
+    background:rgba(255,255,255,.15);
+    backdrop-filter:blur(18px);
+    border-radius:20px;
+    padding:35px;
+    text-align:center;
+    box-shadow:0 20px 40px rgba(0,0,0,.25);
+
+}
+
+.login-box img{
+    width:190px;
+    margin: bottom -30px;
+
+}
+
+.login-box h2{
+
+    color:white;
+    margin-bottom:25px;
+
+}
+
+.login-box input{
+
+    width:100%;
+    padding:14px;
+    margin:10px 0;
+    border:none;
+    border-radius:10px;
+    font-size:16px;
+    box-sizing:border-box;
+
+}
+
+.login-box button{
+
+    width:100%;
+    padding:14px;
+    margin-top:15px;
+    border:none;
+    border-radius:10px;
+    background:#fff;
+    color:#ff6b35;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+
+}
+
+.login-box button:hover{
+
+    transform:translateY(-3px);
+
+}
+
+.login-box p{
+
+    color:white;
+    font-size:14px;
+
+}
+
+.show-pass{
+
+    display:flex;
+    align-items:center;
+    color:white;
+    margin-top:8px;
+    font-size:14px;
+
+}
+
+.show-pass input{
+
+    width:auto;
+    margin-right:8px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="login-box">
+
+<img src="images/logo.png">
+
+<h2>⚙️ Admin Login</h2>
+
+<input
+type="text"
+id="username"
+placeholder="Username">
+
+<input
+type="password"
+id="password"
+placeholder="Password">
+
+<div class="show-pass">
+
+<input
+type="checkbox"
+onclick="togglePassword()">
+
+Show Password
+
+</div>
+
+<button onclick="login()">
+
+🔐 Login
+
+</button>
+
+<p id="msg"></p>
+
+</div>
+
+<script>
+
+function togglePassword(){
+
+const p=document.getElementById("password");
+
+p.type=p.type==="password"?"text":"password";
+
+}
+
+async function login(){
+
+const username=document.getElementById("username").value;
+
+const password=document.getElementById("password").value;
+
+const res=await fetch("/api/admin/login",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+username,
+password
+})
+
+});
+
+const data=await res.json();
+
+if(data.success){
+
+localStorage.setItem("isAdminLoggedIn","true");
+
+window.location.href="admin.html";
+
+}else{
+
+document.getElementById("msg").innerText=data.message;
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
+
+--->
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Tirumala Marketing | Admin Login</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:linear-gradient(135deg,#ff6b35,#ff9800);
+
+}
+
+.login-card{
+
+    width:380px;
+    background:#fff;
+    border-radius:20px;
+    padding:35px;
+    box-shadow:0 20px 40px rgba(0,0,0,.25);
+
+    text-align:center;
+
+    animation:fade .8s;
+
+}
+
+@keyframes fade{
+
+from{
+
+opacity:0;
+transform:translateY(40px);
+
+}
+
+to{
+
+opacity:1;
+transform:translateY(0);
+
+}
+
+}
+
+.logo{
+
+    height: 120px;
+width:150px;
+
+margin-bottom:-15px;
+
+animation:float 3s infinite ease-in-out;
+
+}
+
+@keyframes float{
+
+0%,100%{
+
+transform:translateY(0);
+
+}
+
+50%{
+
+transform:translateY(-10px);
+
+}
+
+}
+
+h2{
+
+color:#ff6b35;
+
+margin-bottom:8px;
+
+}
+
+p{
+
+color:#777;
+
+margin-bottom:25px;
+
+}
+
+.input-box{
+
+position:relative;
+
+margin-bottom:18px;
+
+}
+
+.input-box input{
+
+width:100%;
+
+padding:14px 45px 14px 15px;
+
+border:1px solid #ddd;
+
+border-radius:10px;
+
+font-size:16px;
+
+outline:none;
+
+transition:.3s;
+
+}
+
+.input-box input:focus{
+
+border-color:#ff6b35;
+
+box-shadow:0 0 8px rgba(255,107,53,.4);
+
+}
+
+.eye{
+
+position:absolute;
+
+right:15px;
+
+top:14px;
+
+cursor:pointer;
+
+font-size:18px;
+
+}
+
+.login-btn{
+
+width:100%;
+
+padding:14px;
+
+border:none;
+
+background:#ff6b35;
+
+color:#fff;
+
+font-size:17px;
+
+border-radius:10px;
+
+cursor:pointer;
+
+transition:.3s;
+
+font-weight:bold;
+
+}
+
+.login-btn:hover{
+
+background:#ff9800;
+
+transform:translateY(-3px);
+
+}
+
+#error{
+
+margin-top:15px;
+
+color:red;
+
+font-size:15px;
+
+}
+
+.footer{
+
+margin-top:25px;
+
+font-size:13px;
+
+color:#777;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="login-card">
+
+<img src="images/logo.png" class="logo">
+
+<h2>Admin Login</h2>
+
+<p>Welcome to Tirumala Marketing</p>
+
+<div class="input-box">
+
+<input
+type="text"
+id="username"
+placeholder="Username">
+
+</div>
+
+<div class="input-box">
+
+<input
+type="password"
+id="password"
+placeholder="Password">
+
+<span
+class="eye"
+onclick="togglePassword()">
+
+👁
+
+</span>
+
+</div>
+
+<button
+class="login-btn"
+onclick="login()">
+
+🔐 Login
+
+</button>
+
+<div id="error"></div>
+
+<div class="footer">
+
+© Tirumala Marketing
+
+</div>
+
+</div>
+
+<script>
+
+function togglePassword(){
+
+const pass=document.getElementById("password");
+
+pass.type=pass.type==="password"?"text":"password";
+
+}
+
+async function login(){
+
+const username=document.getElementById("username").value;
+
+const password=document.getElementById("password").value;
+
+const btn=document.querySelector(".login-btn");
+
+btn.innerHTML="⏳ Logging In...";
+
+const res=await fetch("/api/admin/login",{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":"application/json"
+
+},
+
+body:JSON.stringify({
+
+username,
+
+password
+
+})
+
+});
+
+const data=await res.json();
+
+if(data.success){
+
+localStorage.setItem("isAdminLoggedIn","true");
+
+btn.innerHTML="✅ Success";
+
+setTimeout(()=>{
+
+window.location.href="admin.html";
+
+},700);
+
+}else{
+
+document.getElementById("error").innerHTML=data.message;
+
+btn.innerHTML="🔐 Login";
+
+}
+
+}
+
+document.addEventListener("keypress",function(e){
+
+if(e.key==="Enter"){
+
+login();
+
+}
+
+});
+
+</script>
+
 </body>
 </html>

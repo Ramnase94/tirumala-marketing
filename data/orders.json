@@ -15,6 +15,179 @@
       }
     ],
     "totalAmount": 100,
-    "date": "7/19/2026"
+    "date": "7/19/2026",
+    "status": "Completed"
+  },
+  {
+    "orderId": "ORD1784541236796",
+    "customerName": "ram",
+    "phone": "9422916256",
+    "address": "nagpur",
+    "items": [
+      {
+        "id": 1784462246680,
+        "name": "kharodi",
+        "category": "kharodi",
+        "weight": "100gm",
+        "price": 100,
+        "type": "Non-Spicy"
+      },
+      {
+        "id": 1784462246680,
+        "name": "kharodi",
+        "category": "kharodi",
+        "weight": "100gm",
+        "price": 100,
+        "type": "Non-Spicy"
+      },
+      {
+        "id": 1784528379646,
+        "name": "Shev",
+        "category": "fry",
+        "weight": "5000",
+        "price": 1000,
+        "type": "Spicy"
+      }
+    ],
+    "totalAmount": 1200,
+    "date": "7/20/2026",
+    "status": "Completed"
+  },
+  {
+    "orderId": "ORD1784541313911",
+    "customerName": "ram",
+    "phone": "9422916256",
+    "address": "nagpur\n",
+    "items": [
+      {
+        "id": 1784528379646,
+        "name": "Shev",
+        "category": "fry",
+        "weight": "5000",
+        "price": 1000,
+        "type": "Spicy"
+      }
+    ],
+    "totalAmount": 1000,
+    "date": "7/20/2026",
+    "status": "Completed"
+  },
+  {
+    "orderId": "ORD1784541419281",
+    "customerName": "ROHINI BABAN MULE",
+    "phone": "09422916256",
+    "address": "Upper indiranagar B4 room no.25",
+    "items": [
+      {
+        "id": 1784528403340,
+        "name": "kharodi",
+        "category": "fry",
+        "weight": "1000",
+        "price": 300,
+        "type": "Non-Spicy"
+      }
+    ],
+    "totalAmount": 300,
+    "date": "7/20/2026",
+    "status": "Pending"
+  },
+  {
+    "orderId": "ORD1784541914492",
+    "customerName": "shaktiman",
+    "phone": "942258498548",
+    "address": "gangadhar hi shaktiman hai society nagpur",
+    "items": [
+      {
+        "id": 1784528379646,
+        "name": "Shev",
+        "category": "fry",
+        "weight": "5000",
+        "price": 1000,
+        "type": "Spicy"
+      }
+    ],
+    "totalAmount": 1000,
+    "date": "7/20/2026",
+    "status": "Pending"
+  },
+  {
+    "orderId": "ORD1784542231857",
+    "customerName": "patil",
+    "phone": "88888888888",
+    "address": "london house punee",
+    "items": [
+      {
+        "id": 1784528379646,
+        "name": "Shev",
+        "category": "fry",
+        "weight": "5000",
+        "price": 1000,
+        "type": "Spicy"
+      }
+    ],
+    "totalAmount": 1000,
+    "date": "7/20/2026",
+    "status": "Pending"
+  },
+  {
+    "orderId": "ORD1784542504860",
+    "customerName": "Raavan",
+    "phone": "77777777777",
+    "address": "RAAVAN MEHAL LANKA",
+    "items": [
+      {
+        "id": 1784528403340,
+        "name": "kharodi",
+        "category": "fry",
+        "weight": "1000",
+        "price": 300,
+        "type": "Non-Spicy"
+      }
+    ],
+    "totalAmount": 300,
+    "date": "7/20/2026",
+    "status": "Pending"
+  },
+  {
+    "orderId": "ORD1784542614103",
+    "customerName": "BIBISHN ",
+    "phone": "888888888888",
+    "address": "LANKA RAMBHAKT PALACE",
+    "items": [
+      {
+        "id": 1784530558916,
+        "name": "kharodi",
+        "category": "fry",
+        "weight": "150gm",
+        "price": 149,
+        "type": "Non-Spicy",
+        "desc": "om namah shivay",
+        "image": "images/1784530558908.png"
+      }
+    ],
+    "totalAmount": 149,
+    "date": "7/20/2026",
+    "status": "Pending"
+  },
+  {
+    "orderId": "ORD1784542707549",
+    "customerName": "kk",
+    "phone": "7874654648",
+    "address": "parbhani",
+    "items": [
+      {
+        "id": 1784532518928,
+        "name": "MK",
+        "category": "FRY",
+        "weight": "100GM",
+        "price": 78,
+        "type": "Spicy",
+        "desc": "MK",
+        "image": "images/1784532518922.png"
+      }
+    ],
+    "totalAmount": 78,
+    "date": "7/20/2026",
+    "status": "Pending"
   }
 ]

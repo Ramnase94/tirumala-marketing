@@ -4959,3 +4959,27 @@ color:#fff !important;
 .payment-option input{
     margin-right:10px;
 }
+
+.qty-box{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
+}
+
+.qty-box button{
+width:35px;
+height:35px;
+border:none;
+background:#ff6b00;
+color:#fff;
+font-size:20px;
+border-radius:6px;
+cursor:pointer;
+}
+
+.qty-box span{
+font-weight:bold;
+min-width:20px;
+text-align:center;
+}

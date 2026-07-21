@@ -14,73 +14,50 @@
     <link rel="stylesheet" href="css/style.css">
 
 </head>
-
-<body>
-
 <!-- ==========================
 TOP BAR
 ========================== -->
-
 <div class="top-bar">
-
-🚚 महाराष्ट्रभर डिलिव्हरी |
-🎉 ₹500 पेक्षा जास्त ऑर्डरवर Free Delivery |
-📞 +91 9422916256
-
+    🚚 महाराष्ट्रभर डिलिव्हरी |
+    🎉 ₹500 पेक्षा जास्त ऑर्डरवर Free Delivery |
+    📞 +91 9422916256
 </div>
-
 
 <!-- ==========================
 NAVBAR
 ========================== -->
-
 <nav class="navbar">
 
     <a href="index.html" class="brand">
+        <img src="images/logo.png"
+             class="logo"
+             alt="Tirumala Marketing Logo">
 
-        <img
-            src="images/logo.png"
-            class="logo"
-            alt="Logo">
-
-        <span>
-
-            Tirumala Marketing
-
-        </span>
-
+        <span>Tirumala Marketing</span>
     </a>
-
 
     <div class="links">
 
         <a href="index.html">
-
             मुख्य पान
-
         </a>
 
         <a href="about.html">
-
             आमच्याबद्दल
-
         </a>
 
         <a href="cart.html">
-
             🛒 कार्ट
             (<span id="navCartCount">0</span>)
-
         </a>
 
         <a href="login.html">
-
             🔐 लॉगिन
-
         </a>
 
         <button
             id="darkBtn"
+            type="button"
             onclick="toggleDark()">
 
             🌙
@@ -90,21 +67,25 @@ NAVBAR
     </div>
 
 </nav>
+
 <!-- ==========================
 HERO SLIDER
 ========================== -->
 
-<section class="hero-slider">
+<section class="hero-slider" id="home">
 
     <div class="slide active">
 
         <img
+            loading="lazy"
             src="images/banner1.png"
             alt="Banner 1">
 
         <div class="hero-content">
 
-            <h1>🥨 Tirumala Marketing</h1>
+            <h1>
+                🥨 Tirumala Marketing
+            </h1>
 
             <p>
                 शुद्ध • ताजे • घरगुती स्नॅक्स
@@ -112,7 +93,7 @@ HERO SLIDER
 
             <button
                 class="hero-btn"
-                onclick="goToProducts()">
+                onclick="document.getElementById('productsDisplay').scrollIntoView({behavior:'smooth'})">
 
                 🛒 Shop Now
 
@@ -125,12 +106,15 @@ HERO SLIDER
     <div class="slide">
 
         <img
+            loading="lazy"
             src="images/banner2.png"
             alt="Banner 2">
 
         <div class="hero-content">
 
-            <h1>Fresh Every Day</h1>
+            <h1>
+                Fresh Every Day
+            </h1>
 
             <p>
                 Premium Quality Snacks
@@ -143,12 +127,15 @@ HERO SLIDER
     <div class="slide">
 
         <img
+            loading="lazy"
             src="images/banner3.png"
             alt="Banner 3">
 
         <div class="hero-content">
 
-            <h1>Made With Love ❤️</h1>
+            <h1>
+                Made With Love ❤️
+            </h1>
 
             <p>
                 Traditional Maharashtrian Taste
@@ -160,21 +147,21 @@ HERO SLIDER
 
 </section>
 
-
 <!-- ==========================
-SEARCH BAR
+SEARCH
 ========================== -->
 
 <section class="search-section">
 
     <input
-        type="text"
         id="searchInput"
+        type="search"
         placeholder="🔍 पदार्थ शोधा..."
-        onkeyup="searchProducts()">
+        autocomplete="off"
+        spellcheck="false"
+        oninput="searchProducts()">
 
 </section>
-
 
 <!-- ==========================
 CATEGORY FILTER
@@ -183,32 +170,22 @@ CATEGORY FILTER
 <section class="filter-buttons">
 
     <button onclick="filterCategory('All')">
-
         सर्व
-
     </button>
 
     <button onclick="filterCategory('पापड-फ्रायम्स')">
-
         पापड-फ्रायम्स
-
     </button>
 
     <button onclick="filterCategory('शेव-चिवडा')">
-
         शेव-चिवडा
-
     </button>
 
     <button onclick="filterCategory('उपवास स्पेशल')">
-
         उपवास
-
     </button>
 
 </section>
-
-
 <!-- ==========================
 TODAY OFFER
 ========================== -->
@@ -216,42 +193,30 @@ TODAY OFFER
 <section class="offers">
 
     <div class="offer-card">
-
         <h3>🔥 Today's Offer</h3>
-
         <p>
             ₹500 पेक्षा जास्त खरेदीवर
             <b>10% OFF</b>
         </p>
-
     </div>
 
     <div class="offer-card">
-
         <h3>🚚 Free Delivery</h3>
-
         <p>
-            ₹299 पेक्षा जास्त
-            ऑर्डरवर Free Delivery
+            ₹299 पेक्षा जास्त ऑर्डरवर
+            Free Delivery
         </p>
-
     </div>
 
     <div class="offer-card">
-
         <h3>🎁 Combo Pack</h3>
-
         <p>
-
             3 Products घ्या आणि
             Special Gift मिळवा.
-
         </p>
-
     </div>
 
 </section>
-
 
 <!-- ==========================
 COUNTDOWN
@@ -259,19 +224,14 @@ COUNTDOWN
 
 <section class="countdown">
 
-    <h2>
-
-        ⏰ Offer Ends In
-
-    </h2>
+    <h2>⏰ Offer Ends In</h2>
 
     <div id="timer">
-
         05 : 59 : 59
-
     </div>
 
 </section>
+
 <!-- ==========================
 STATS
 ========================== -->
@@ -300,9 +260,8 @@ STATS
 
 </section>
 
-
 <!-- ==========================
-TODAY'S SPECIAL
+TODAY SPECIAL
 ========================== -->
 
 <section class="special">
@@ -313,7 +272,10 @@ TODAY'S SPECIAL
 
         <div class="special-card">
 
-            <img src="images/shev.jpg" alt="लसूण शेव">
+            <img
+                loading="lazy"
+                src="images/shev.jpg"
+                alt="लसूण शेव">
 
             <h3>लसूण शेव</h3>
 
@@ -323,7 +285,10 @@ TODAY'S SPECIAL
 
         <div class="special-card">
 
-            <img src="images/kharodi.jpg" alt="बाजरीची खरोडी">
+            <img
+                loading="lazy"
+                src="images/kharodi.jpg"
+                alt="बाजरीची खरोडी">
 
             <h3>बाजरीची खरोडी</h3>
 
@@ -333,7 +298,10 @@ TODAY'S SPECIAL
 
         <div class="special-card">
 
-            <img src="images/sabudana.jpg" alt="साबुदाणा चिवडा">
+            <img
+                loading="lazy"
+                src="images/sabudana.jpg"
+                alt="साबुदाणा चिवडा">
 
             <h3>साबुदाणा चिवडा</h3>
 
@@ -344,7 +312,6 @@ TODAY'S SPECIAL
     </div>
 
 </section>
-
 
 <!-- ==========================
 BEST SELLERS
@@ -358,7 +325,10 @@ BEST SELLERS
 
         <div class="best-card">
 
-            <img src="images/kharodi.jpg" alt="खरोडी">
+            <img
+                loading="lazy"
+                src="images/kharodi.jpg"
+                alt="खरोडी">
 
             <h3>बाजरीची खरोडी</h3>
 
@@ -368,7 +338,10 @@ BEST SELLERS
 
         <div class="best-card">
 
-            <img src="images/shev.jpg" alt="शेव">
+            <img
+                loading="lazy"
+                src="images/shev.jpg"
+                alt="शेव">
 
             <h3>लसूण शेव</h3>
 
@@ -378,7 +351,10 @@ BEST SELLERS
 
         <div class="best-card">
 
-            <img src="images/sabudana.jpg" alt="साबुदाणा">
+            <img
+                loading="lazy"
+                src="images/sabudana.jpg"
+                alt="साबुदाणा">
 
             <h3>साबुदाणा चिवडा</h3>
 
@@ -390,9 +366,8 @@ BEST SELLERS
 
 </section>
 
-
 <!-- ==========================
-PRODUCT CATEGORIES
+CATEGORY GRID
 ========================== -->
 
 <section class="category-section">
@@ -400,11 +375,15 @@ PRODUCT CATEGORIES
     <h2>🥨 आमच्या Categories</h2>
 
     <div class="category-grid">
-         <div
+
+        <div
             class="category-card"
             onclick="filterCategory('All')">
 
-            <img src="images/all.png" alt="सर्व">
+            <img
+                loading="lazy"
+                src="images/all.png"
+                alt="सर्व">
 
             <h3>सर्व</h3>
 
@@ -414,7 +393,10 @@ PRODUCT CATEGORIES
             class="category-card"
             onclick="filterCategory('पापड-फ्रायम्स')">
 
-            <img src="images/kharodi.jpg" alt="खरोडी">
+            <img
+                loading="lazy"
+                src="images/kharodi.jpg"
+                alt="खरोडी">
 
             <h3>खरोडी</h3>
 
@@ -424,7 +406,10 @@ PRODUCT CATEGORIES
             class="category-card"
             onclick="filterCategory('शेव-चिवडा')">
 
-            <img src="images/shev.jpg" alt="शेव">
+            <img
+                loading="lazy"
+                src="images/shev.jpg"
+                alt="शेव">
 
             <h3>शेव</h3>
 
@@ -434,17 +419,19 @@ PRODUCT CATEGORIES
             class="category-card"
             onclick="filterCategory('उपवास स्पेशल')">
 
-            <img src="images/sabudana.jpg" alt="उपवास">
+            <img
+                loading="lazy"
+                src="images/sabudana.jpg"
+                alt="उपवास">
 
             <h3>उपवास</h3>
 
         </div>
 
-       
-
     </div>
 
 </section>
+
 <!-- ==========================
 PRODUCTS
 ========================== -->
@@ -464,54 +451,36 @@ PRODUCTS
     </div>
 
 </section>
-
-
 <!-- ==========================
 FEEDBACK
 ========================== -->
 
 <section class="feedback-section">
 
-    <h2>
-
-        💬 तुमचा अभिप्राय
-
-    </h2>
+    <h2>💬 तुमचा अभिप्राय</h2>
 
     <div class="feedback-box">
 
         <input
             type="text"
             id="fbName"
-            placeholder="तुमचे नाव">
+            placeholder="तुमचे नाव"
+            maxlength="50">
 
         <select id="fbRating">
 
-            <option value="5">
-                ⭐⭐⭐⭐⭐ उत्कृष्ट
-            </option>
-
-            <option value="4">
-                ⭐⭐⭐⭐ खूप छान
-            </option>
-
-            <option value="3">
-                ⭐⭐⭐ चांगले
-            </option>
-
-            <option value="2">
-                ⭐⭐ ठीक
-            </option>
-
-            <option value="1">
-                ⭐ वाईट
-            </option>
+            <option value="5">⭐⭐⭐⭐⭐ उत्कृष्ट</option>
+            <option value="4">⭐⭐⭐⭐ खूप छान</option>
+            <option value="3">⭐⭐⭐ चांगले</option>
+            <option value="2">⭐⭐ ठीक</option>
+            <option value="1">⭐ वाईट</option>
 
         </select>
 
         <textarea
             id="fbComment"
             rows="4"
+            maxlength="500"
             placeholder="तुमचा अभिप्राय लिहा..."></textarea>
 
         <button
@@ -526,115 +495,44 @@ FEEDBACK
 
 </section>
 
-
 <!-- ==========================
 WHY CHOOSE US
 ========================== -->
 
 <section class="why-us">
 
-    <h2>
-
-        ❤️ आम्हालाच का निवडाल?
-
-    </h2>
+    <h2>❤️ आम्हालाच का निवडाल?</h2>
 
     <div class="why-grid">
 
         <div class="why-card">
-
-            <div class="icon">
-
-                🥇
-
-            </div>
-
-            <h3>
-
-                Premium Quality
-
-            </h3>
-
-            <p>
-
-                100% Fresh आणि दर्जेदार पदार्थ.
-
-            </p>
-
+            <div class="icon">🥇</div>
+            <h3>Premium Quality</h3>
+            <p>100% Fresh आणि दर्जेदार पदार्थ.</p>
         </div>
 
-
         <div class="why-card">
-
-            <div class="icon">
-
-                🚚
-
-            </div>
-
-            <h3>
-
-                Fast Delivery
-
-            </h3>
-
-            <p>
-
-                महाराष्ट्रभर जलद डिलिव्हरी.
-
-            </p>
-
+            <div class="icon">🚚</div>
+            <h3>Fast Delivery</h3>
+            <p>महाराष्ट्रभर जलद डिलिव्हरी.</p>
         </div>
 
-
         <div class="why-card">
-
-            <div class="icon">
-
-                😊
-
-            </div>
-
-            <h3>
-
-                Happy Customers
-
-            </h3>
-
-            <p>
-
-                5000+ समाधानी ग्राहक.
-
-            </p>
-
+            <div class="icon">😊</div>
+            <h3>Happy Customers</h3>
+            <p>5000+ समाधानी ग्राहक.</p>
         </div>
 
-
         <div class="why-card">
-
-            <div class="icon">
-
-                ❤️
-
-            </div>
-
-            <h3>
-
-                Homemade Taste
-
-            </h3>
-
-            <p>
-
-                घरगुती चव आणि विश्वास.
-
-            </p>
-
+            <div class="icon">❤️</div>
+            <h3>Homemade Taste</h3>
+            <p>घरगुती चव आणि विश्वास.</p>
         </div>
 
     </div>
 
 </section>
+
 <!-- ==========================
 CUSTOMER REVIEWS
 ========================== -->
@@ -685,7 +583,6 @@ CUSTOMER REVIEWS
 
 </section>
 
-
 <!-- ==========================
 CONTACT
 ========================== -->
@@ -704,61 +601,51 @@ CONTACT
 
 </section>
 
-
 <!-- ==========================
 FOOTER
 ========================== -->
 
 <footer>
 
-    <p>
-
-        © 2026 Tirumala Marketing
-
-    </p>
+    <p>© 2026 Tirumala Marketing</p>
 
     <p>
-
         Developed with ❤️ by
-        <b>R Technologies</b>
-
+        <strong>R Technologies</strong>
     </p>
 
 </footer>
 
-
 <!-- ==========================
-WHATSAPP
+WHATSAPP FLOAT
 ========================== -->
 
 <a
     href="https://wa.me/919422916256"
     target="_blank"
+    rel="noopener"
     class="whatsapp">
 
     <img
+        loading="lazy"
         src="images/whatsapp.png"
         alt="WhatsApp">
 
 </a>
-
-
-<!-- ==========================
-JAVASCRIPT
-========================== -->
-
-<script >
-
-// ==========================
-// Tirumala Marketing App
-// ==========================
+<script>
+// ========================================
+// Tirumala Marketing
+// Optimized Script - Part 4A
+// ========================================
 
 let fetchedProducts = [];
-let shoppingCart = JSON.parse(localStorage.getItem("tirumala_cart")) || [];
 
-// --------------------------
+let shoppingCart =
+JSON.parse(localStorage.getItem("tirumala_cart")) || [];
+
+// ----------------------------------------
 // Dark Mode
-// --------------------------
+// ----------------------------------------
 
 function toggleDark() {
 
@@ -771,7 +658,7 @@ function toggleDark() {
 
 }
 
-window.addEventListener("load", () => {
+function loadDarkMode() {
 
     if (localStorage.getItem("darkMode") === "true") {
 
@@ -779,151 +666,276 @@ window.addEventListener("load", () => {
 
     }
 
-});
+}
 
-// --------------------------
+// ----------------------------------------
 // Cart Count
-// --------------------------
+// ----------------------------------------
 
 function updateNavCartCount() {
 
-    const count = document.getElementById("navCartCount");
+    const cartCount =
+        document.getElementById("navCartCount");
 
-    if (count) {
+    if (!cartCount) return;
 
-        count.innerText = shoppingCart.length;
-
-    }
+    cartCount.textContent = shoppingCart.length;
 
 }
 
-// --------------------------
+// ----------------------------------------
 // Fetch Products
-// --------------------------
+// ----------------------------------------
 
 async function fetchSnacks() {
 
     try {
 
-        const response = await fetch("/api/products");
+        const response =
+            await fetch("/api/products");
 
-        fetchedProducts = await response.json();
+        if (!response.ok)
+            throw new Error("Unable to load products");
+
+        fetchedProducts =
+            await response.json();
 
         displaySnacks();
 
-        updateNavCartCount();
+    }
 
-    } catch (err) {
+    catch (err) {
 
         console.error(err);
 
+        document.getElementById("productsDisplay").innerHTML =
+
+        `
+        <div class="empty-box">
+
+            <h3>⚠ Products Load झाले नाहीत.</h3>
+
+        </div>
+        `;
+
     }
 
-}// ==========================
+}
+
+// ----------------------------------------
 // Display Products
-// ==========================
+// ----------------------------------------
 
 function displaySnacks(products = fetchedProducts) {
 
-    const grid = document.getElementById("productsDisplay");
+    const grid =
+        document.getElementById("productsDisplay");
 
     if (!grid) return;
 
-    grid.innerHTML = "";
-products.forEach(snack => {
+    if (!products.length) {
+
+        grid.innerHTML =
+
+        `
+        <div class="empty-box">
+
+            <h3>😔 Product मिळाला नाही.</h3>
+
+        </div>
+        `;
+
+        return;
+
+    }
+
+    let html = "";
+
+    products.forEach(product => {
+
         const badgeText =
-            snack.type === "Spicy"
-            ? "🌶️ Spicy"
-            : "🟢 Non-Spicy";
+            product.type === "Spicy"
+                ? "🌶️ Spicy"
+                : "🟢 Non-Spicy";
 
         const badgeClass =
-            snack.type === "Spicy"
-            ? "badge"
-            : "badge non-spicy";
+            product.type === "Spicy"
+                ? "badge"
+                : "badge non-spicy";
 
-        grid.innerHTML += `
+        const imagePath =
+            product.image
+                ? "/" + product.image.replace(/^\/+/, "")
+                : "https://via.placeholder.com/300x300?text=No+Image";
+
+        html += `
 
 <div class="product-card">
 
-   <div class="offer-badge">
-        20% OFF
+<div class="offer-badge">
+
+20% OFF
+
+</div>
+
+<div class="wishlist" onclick="toggleWishlist(${product.id})">❤</div>
+
+<div class="product-top">
+
+<img
+
+src="${imagePath}"
+
+loading="lazy"
+
+class="product-image"
+
+alt="${product.name}"
+
+onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
+
+<span class="${badgeClass}">
+
+${badgeText}
+
+</span>
+
+<h3>
+
+${product.name}
+
+</h3>
+
+<p>
+
+${product.desc}
+
+</p>
+
+<p>
+
+📦 ${product.weight}
+
+</p>
+
+<p>
+
+📂 ${product.category}
+
+</p>
+
+<div class="rating">
+
+⭐⭐⭐⭐⭐
+
+</div>
+
+</div>
+<div class="product-bottom">
+
+    <div class="price">
+
+        ₹${product.price}
+
     </div>
 
-   
-    
+    ${
+        getCartQuantity(product.id) === 0
+        ?
 
-    <div class="wishlist">❤</div>
+        `
 
-    <div class="product-top">
-        <img src="${snack.image}" class="product-image" alt="${snack.name}">
-
-        <span class="${badgeClass}">
-            ${badgeText}
-        </span>
-
-        <h3>${snack.name}</h3>
-
-        <p>${snack.desc}</p>
-
-        <p>📦 ${snack.weight}</p>
-
-        <p>📂 ${snack.category}</p>
-
-        <div class="rating">
-            ⭐⭐⭐⭐⭐
-        </div>
-
-    </div>
-
-    <div class="product-bottom">
-
-        <div class="price">
-            ₹${snack.price}
-        </div>
-
-        <button class="btn"
-        onclick="addItemToCart(${snack.id})">
+        <button
+        class="btn"
+        onclick="addItemToCart(${product.id})">
 
             🛒 Add To Cart
 
         </button>
 
-    </div>
+        `
 
+        :
+
+        `
+
+        <div class="qty-box">
+
+            <button
+            onclick="decreaseQty(${product.id})">
+
+                -
+
+            </button>
+
+            <span>
+
+                ${getCartQuantity(product.id)}
+
+            </span>
+
+            <button
+            onclick="increaseQty(${product.id})">
+
+                +
+
+            </button>
+
+        </div>
+
+        `
+    }
+
+</div>
 </div>
 
 `;
 
     });
 
+    grid.innerHTML = html;
+
 }
 
-// ==========================
-// Search Products
-// ==========================
+// ----------------------------------------
+// Search
+// ----------------------------------------
 
 function searchProducts() {
 
-    const value = document
+    const keyword =
+        document
         .getElementById("searchInput")
         .value
+        .trim()
         .toLowerCase();
 
-    const filtered = fetchedProducts.filter(item =>
+    if (!keyword) {
 
-        item.name.toLowerCase().includes(value) ||
+        displaySnacks();
 
-        item.category.toLowerCase().includes(value)
+        return;
 
-    );
+    }
+
+    const filtered =
+        fetchedProducts.filter(item =>
+
+            item.name.toLowerCase().includes(keyword) ||
+
+            item.category.toLowerCase().includes(keyword) ||
+
+            item.desc.toLowerCase().includes(keyword)
+
+        );
 
     displaySnacks(filtered);
 
 }
 
-// ==========================
+// ----------------------------------------
 // Category Filter
-// ==========================
+// ----------------------------------------
 
 function filterCategory(category) {
 
@@ -935,56 +947,64 @@ function filterCategory(category) {
 
     }
 
-    const filtered = fetchedProducts.filter(item =>
+    const filtered =
+        fetchedProducts.filter(item =>
 
-        item.category === category
+            item.category === category
 
-    );
+        );
 
     displaySnacks(filtered);
 
 }
 
-// ==========================
+// ----------------------------------------
 // Add To Cart
-// ==========================
+// ----------------------------------------
 
 function addItemToCart(id) {
 
-    const product = fetchedProducts.find(item => item.id == id);
+    const product =
+        fetchedProducts.find(p => p.id == id);
 
-    if (!product) {
-
-        alert("Product Not Found");
-
-        return;
-
-    }
+    if (!product) return;
 
     shoppingCart.push(product);
 
     localStorage.setItem(
+
         "tirumala_cart",
+
         JSON.stringify(shoppingCart)
+
     );
 
     updateNavCartCount();
+    displaySnacks();
 
     alert(product.name + " कार्टमध्ये जोडले.");
 
-}// ==========================
+}
+
+// ========================================
 // Feedback
-// ==========================
+// ========================================
 
 async function sendFeedback() {
 
-    const name = document.getElementById("fbName").value.trim();
-    const rating = document.getElementById("fbRating").value;
-    const comment = document.getElementById("fbComment").value.trim();
+    const name =
+        document.getElementById("fbName").value.trim();
 
-    if (name === "" || comment === "") {
+    const rating =
+        document.getElementById("fbRating").value;
+
+    const comment =
+        document.getElementById("fbComment").value.trim();
+
+    if (!name || !comment) {
 
         alert("कृपया सर्व माहिती भरा.");
+
         return;
 
     }
@@ -1007,131 +1027,116 @@ async function sendFeedback() {
 
         });
 
-        if (response.ok) {
+        if (!response.ok)
+            throw new Error();
 
-            alert("✅ Feedback यशस्वीरित्या पाठवला.");
+        alert("✅ Feedback यशस्वीरित्या पाठवला.");
 
-            document.getElementById("fbName").value = "";
-            document.getElementById("fbComment").value = "";
-            document.getElementById("fbRating").value = "5";
+        document.getElementById("fbName").value = "";
+        document.getElementById("fbComment").value = "";
+        document.getElementById("fbRating").value = "5";
 
-        } else {
+    }
 
-            alert("❌ Feedback Submit झाला नाही.");
+    catch {
 
-        }
-
-    } catch (err) {
-
-        console.error(err);
-
-        alert("❌ Server Error");
+        alert("❌ Feedback Submit झाला नाही.");
 
     }
 
 }
 
-
-// ==========================
+// ========================================
 // Hero Slider
-// ==========================
+// ========================================
 
-const banners = [
-
-    "images/banner1.png",
-    "images/banner2.png",
-    "images/banner3.png"
-
-];
+const slides =
+document.querySelectorAll(".hero-slider .slide");
 
 let currentSlide = 0;
-const slides = document.querySelectorAll(".hero-slider .slide");
 
 function showSlide(index) {
 
-    slides.forEach(slide => {
-        slide.classList.remove("active");
-    });
+    slides.forEach(slide =>
+        slide.classList.remove("active"));
 
-    slides[index].classList.add("active");
+    if (slides[index]) {
+
+        slides[index].classList.add("active");
+
+    }
+
 }
 
-setInterval(() => {
-
-    currentSlide++;
-
-    if (currentSlide >= slides.length) {
-        currentSlide = 0;
-    }
-
-    showSlide(currentSlide);
-
-}, 3000);
-
-
-// ==========================
-// Countdown Timer
-// ==========================
-
-let hours = 5;
-let minutes = 59;
-let seconds = 59;
-
-setInterval(() => {
-
-    if (seconds > 0) {
-
-        seconds--;
-
-    } else {
-
-        seconds = 59;
-
-        if (minutes > 0) {
-
-            minutes--;
-
-        } else {
-
-            minutes = 59;
-
-            if (hours > 0) {
-
-                hours--;
-
-            }
-
-        }
-
-    }
-
-    const timer = document.getElementById("timer");
-
-    if (timer) {
-
-        timer.innerHTML =
-            String(hours).padStart(2, "0") + " : " +
-            String(minutes).padStart(2, "0") + " : " +
-            String(seconds).padStart(2, "0");
-
-    }
-
-}, 1000);
-
-
-// ==========================
-// Review Slider
-// ==========================
-
-const reviews = document.querySelectorAll(".review");
-
-let reviewIndex = 0;
-
-if (reviews.length > 0) {
+if (slides.length > 1) {
 
     setInterval(() => {
 
-        reviews[reviewIndex].classList.remove("active");
+        currentSlide++;
+
+        if (currentSlide >= slides.length) {
+
+            currentSlide = 0;
+
+        }
+
+        showSlide(currentSlide);
+
+    }, 3500);
+
+}
+
+// ========================================
+// Countdown
+// ========================================
+
+let totalSeconds = (5 * 60 * 60) + (59 * 60) + 59;
+
+function updateTimer() {
+
+    if (totalSeconds <= 0) return;
+
+    totalSeconds--;
+
+    const hrs =
+    Math.floor(totalSeconds / 3600);
+
+    const mins =
+    Math.floor((totalSeconds % 3600) / 60);
+
+    const secs =
+    totalSeconds % 60;
+
+    const timer =
+    document.getElementById("timer");
+
+    if (timer) {
+
+        timer.textContent =
+
+        `${String(hrs).padStart(2,"0")} : ${String(mins).padStart(2,"0")} : ${String(secs).padStart(2,"0")}`;
+
+    }
+
+}
+
+setInterval(updateTimer,1000);
+
+// ========================================
+// Review Slider
+// ========================================
+
+const reviews =
+document.querySelectorAll(".review");
+
+let reviewIndex = 0;
+
+if (reviews.length > 1) {
+
+    setInterval(() => {
+
+        reviews[reviewIndex]
+        .classList.remove("active");
 
         reviewIndex++;
 
@@ -1141,26 +1146,444 @@ if (reviews.length > 0) {
 
         }
 
-        reviews[reviewIndex].classList.add("active");
+        reviews[reviewIndex]
+        .classList.add("active");
 
-    }, 3000);
+    },3500);
 
 }
 
+// ========================================
+// App Start
+// ========================================
 
-// ==========================
-// Start App
-// ==========================
+window.addEventListener("DOMContentLoaded", () => {
 
-window.onload = () => {
-
-    fetchSnacks();
+    loadDarkMode();
 
     updateNavCartCount();
 
-};
-    
-</script>
+    fetchSnacks();
 
+});
+
+// ========================================
+// Part 5 : Extra Features
+// ========================================
+
+// ---------- Wishlist ----------
+
+let wishlist =
+JSON.parse(localStorage.getItem("tirumala_wishlist")) || [];
+
+function toggleWishlist(id){
+
+    if(wishlist.includes(id)){
+
+        wishlist =
+        wishlist.filter(x=>x!==id);
+
+        showToast("💔 Wishlist मधून काढले");
+
+    }else{
+
+        wishlist.push(id);
+
+        showToast("❤️ Wishlist मध्ये जोडले");
+
+    }
+
+    localStorage.setItem(
+        "tirumala_wishlist",
+        JSON.stringify(wishlist)
+    );
+
+}
+
+// ---------- Toast ----------
+
+function showToast(message){
+
+    let toast =
+    document.getElementById("toast");
+
+    if(!toast){
+
+        toast=document.createElement("div");
+
+        toast.id="toast";
+
+        toast.style.cssText=`
+        position:fixed;
+        bottom:25px;
+        left:50%;
+        transform:translateX(-50%);
+        background:#222;
+        color:#fff;
+        padding:12px 25px;
+        border-radius:8px;
+        z-index:99999;
+        font-weight:bold;
+        opacity:0;
+        transition:.3s;
+        `;
+
+        document.body.appendChild(toast);
+
+    }
+
+    toast.innerHTML=message;
+
+    toast.style.opacity=1;
+
+    setTimeout(()=>{
+
+        toast.style.opacity=0;
+
+    },1800);
+
+}
+
+// ---------- Sort ----------
+
+function sortProducts(type){
+
+    let arr=[...fetchedProducts];
+
+    if(type==="low"){
+
+        arr.sort((a,b)=>a.price-b.price);
+
+    }
+
+    if(type==="high"){
+
+        arr.sort((a,b)=>b.price-a.price);
+
+    }
+
+    if(type==="name"){
+
+        arr.sort((a,b)=>
+        a.name.localeCompare(b.name));
+
+    }
+
+    displaySnacks(arr);
+
+}
+
+// ---------- Better Search ----------
+
+function smartSearch(keyword){
+
+    keyword=keyword.toLowerCase();
+
+    return fetchedProducts.filter(item=>{
+
+        return (
+
+            item.name.toLowerCase().includes(keyword)||
+
+            item.category.toLowerCase().includes(keyword)||
+
+            item.desc.toLowerCase().includes(keyword)||
+
+            String(item.price).includes(keyword)
+
+        );
+
+    });
+
+}
+
+// ---------- Skeleton Loader ----------
+
+function showLoading(){
+
+    const grid=document.getElementById("productsDisplay");
+
+    if(!grid) return;
+
+    let html="";
+
+    for(let i=0;i<8;i++){
+
+        html+=`
+
+        <div class="product-card loading">
+
+            <div style="height:180px;background:#eee;border-radius:10px;"></div>
+
+            <br>
+
+            <div style="height:20px;background:#eee;"></div>
+
+            <br>
+
+            <div style="height:20px;background:#eee;width:70%;"></div>
+
+        </div>
+
+        `;
+
+    }
+
+    grid.innerHTML=html;
+
+}
+
+// ---------- Refresh Products ----------
+
+async function refreshProducts(){
+
+    showLoading();
+
+    await fetchSnacks();
+
+}
+
+// ---------- Product Animation ----------
+
+function animateCards(){
+
+    document
+    .querySelectorAll(".product-card")
+    .forEach((card,index)=>{
+
+        card.style.opacity=0;
+
+        card.style.transform="translateY(20px)";
+
+        setTimeout(()=>{
+
+            card.style.transition=".4s";
+
+            card.style.opacity=1;
+
+            card.style.transform="translateY(0)";
+
+        },index*50);
+
+    });
+
+}
+
+// displaySnacks override animation
+
+const oldDisplay=displaySnacks;
+
+displaySnacks=function(products=fetchedProducts){
+
+    oldDisplay(products);
+
+    animateCards();
+
+}
+
+// ========================================
+// Part 6 : Final Optimization
+// ========================================
+
+// ---------- Cart Quantity ----------
+
+function getCartQuantity(id){
+
+    return shoppingCart.filter(p=>p.id==id).length;
+
+}
+
+function increaseQty(id){
+
+    const product=fetchedProducts.find(p=>p.id==id);
+
+    if(!product) return;
+
+    shoppingCart.push(product);
+
+    saveCart();
+
+}
+
+function decreaseQty(id){
+
+    const index=shoppingCart.findIndex(p=>p.id==id);
+
+    if(index!=-1){
+
+        shoppingCart.splice(index,1);
+
+    }
+
+    saveCart();
+
+}
+
+function saveCart(){
+
+    localStorage.setItem(
+        "tirumala_cart",
+        JSON.stringify(shoppingCart)
+    );
+
+    updateNavCartCount();
+
+    displaySnacks();
+
+}
+
+// ---------- Pagination ----------
+
+let currentPage=1;
+const itemsPerPage=12;
+
+function renderPage(products=fetchedProducts){
+
+    const start=(currentPage-1)*itemsPerPage;
+
+    const end=start+itemsPerPage;
+
+    displaySnacks(products.slice(start,end));
+
+}
+
+// ---------- Next / Prev ----------
+
+function nextPage(){
+
+    if(currentPage*itemsPerPage>=fetchedProducts.length) return;
+
+    currentPage++;
+
+    renderPage();
+
+}
+
+function prevPage(){
+
+    if(currentPage==1) return;
+
+    currentPage--;
+
+    renderPage();
+
+}
+
+// ---------- Infinite Scroll ----------
+
+window.addEventListener("scroll",()=>{
+
+    if(
+
+        window.innerHeight+
+
+        window.scrollY>=
+
+        document.body.offsetHeight-200
+
+    ){
+
+        if(currentPage*itemsPerPage<fetchedProducts.length){
+
+            currentPage++;
+
+            renderPage();
+
+        }
+
+    }
+
+});
+
+// ---------- Back To Top ----------
+
+const topBtn=document.createElement("button");
+
+topBtn.innerHTML="⬆";
+
+topBtn.id="topBtn";
+
+topBtn.style.cssText=`
+
+position:fixed;
+
+bottom:90px;
+
+right:20px;
+
+width:50px;
+
+height:50px;
+
+border:none;
+
+border-radius:50%;
+
+background:#ff5722;
+
+color:white;
+
+font-size:22px;
+
+cursor:pointer;
+
+display:none;
+
+z-index:9999;
+
+`;
+
+document.body.appendChild(topBtn);
+
+window.addEventListener("scroll",()=>{
+
+    topBtn.style.display=
+
+    window.scrollY>300?"block":"none";
+
+});
+
+topBtn.onclick=()=>{
+
+    window.scrollTo({
+
+        top:0,
+
+        behavior:"smooth"
+
+    });
+
+};
+
+// ---------- Auto Refresh Cart ----------
+
+window.addEventListener("storage",()=>{
+
+    shoppingCart=
+
+    JSON.parse(localStorage.getItem("tirumala_cart"))||[];
+
+    updateNavCartCount();
+
+});
+
+// ---------- Performance ----------
+
+document.querySelectorAll("img").forEach(img=>{
+
+    img.loading="lazy";
+
+    img.decoding="async";
+
+});
+
+// ---------- Console ----------
+
+console.log(
+
+"✅ Tirumala Marketing Optimized Successfully"
+
+);
+</script>
 </body>
 </html>

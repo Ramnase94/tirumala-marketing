@@ -7,21 +7,157 @@
 </head>
 <body>
     <div class="navbar">
-        <a href="index.html" class="brand">🏪 Tirumala Marketing</a>
-        <div class="links"><a href="index.html">मुख्य पान</a><a href="about.html">आमच्याबद्दल</a><a href="cart.html">🛒 कार्ट</a></div>
+        <a href="index.html" class="brand">
+       <img src="images/logo.png" class="header-logo">
+       Tirumala Marketing
+      </a>      <div class="links">
+
+        <a href="index.html">मुख्य पान</a>
+
+          <a href="about.html">आमच्याबद्दल</a>
+
+                <a href="cart.html">
+
+             🛒 कार्ट
+
+           <span id="cartBadge">0</span></a>
+
+           </div>
+           <button id="darkModeToggle" class="dark-btn">
+🌙
+</button>
     </div>
-    <div class="container">
-        <div class="about-card">
+            <div class="container">
+         <div class="about-card">
             <h2>📜 आमच्याबद्दल (About Us)</h2>
             <p>तिरुमला मार्केटिंग हा स्नॅक्स उत्पादन क्षेत्रातील एक अग्रगण्य आणि विश्वासार्ह ब्रँड आहे. आम्ही बाजरीची खरोडी, लसूण शेव, उपवास साबुदाणा चिवडा यांसारख्या अनेक पारंपारिक पदार्थांचे हायजीनिक पद्धतीने मॅन्युफॅक्चरिंग करतो.</p>
             <div class="info-grid">
-                <div class="info-item"><h4>👤 मालकाचे नाव</h4><p>तिरुमला मार्केटिंग प्रोप्रायटर</p></div>
-                <div class="info-item"><h4>📜 FSSAI लायसन्स नंबर</h4><p>FSSAI No: 21526000000000</p></div>
-                <div class="info-item"><h4>📞 कस्टमर केअर नंबर</h4><p>+91 98765 43210</p></div>
-                <div class="info-item"><h4>📍 कारखान्याचा पत्ता</h4><p>प्लॉट नंबर २४, एम.आय.डी.सी. एरिया, महाराष्ट्र, भारत.</p></div>
+          <div class="info-item">
+
+         <img src="images/owner.jpeg" class="owner-photo">
+
+         <h4>Owner Name</h4>
+
+           <p><b>Ram G Nase</b></p>
+
+         <p>Founder & Proprietor</p>
+
+     </div>                <div class="info-item"><h4>📜 FSSAI license No:-</h4><p>FSSAI No:  21524046000186</p></div>
+                <div class="info-item"><h4>📞 Customer Care.No:- </h4><p>+91 9422916256  8007272277 </p></div>
+                <div class="info-item"><h4>📍 Address </h4><p>Nase Galli, Sonpeth,( 431516 ), Parbhani,Maharashtra </p></div>
             </div>
+
+            
         </div>
+        
+
+        <div class="about-section">
+
+<h2>📍 Our Location</h2>
+
+<iframe
+src="https://www.google.com/maps?q=Sonpeth%20Parbhani&output=embed"
+width="100%"
+height="350"
+style="border:0;border-radius:15px;"
+loading="lazy">
+</iframe>
+
+</div>
+
+<div class="about-section">
+
+ <h2>📲 Connect With Us</h2>
+
+ <a
+ href="https://wa.me/919422916256"
+ class="whatsapp-about">
+
+ 💬 Chat on WhatsApp
+
+ </a>
+
+ </div>
+ <div class="about-section">
+
+<h2>📸 Our Gallery</h2>
+
+<div class="gallery-grid">
+
+<img src="images/gallery1.png">
+
+<img src="images/gallery2.png">
+
+<img src="images/gallery3.png">
+
+<img src="images/gallery4.png">
+
+</div>
+
+</div>
     </div>
+    <script>
+
+
+
+
+
+function updateCartBadge(){
+
+    const cart = JSON.parse(localStorage.getItem("tirumala_cart")) || [];
+
+    const badge = document.getElementById("cartBadge");
+
+    if(badge){
+
+        badge.innerText = cart.length;
+
+    }
+
+}
+
+updateCartBadge();
+
+const darkBtn = document.getElementById("darkModeToggle");
+
+// Load saved theme
+if(localStorage.getItem("theme") === "dark"){
+
+    document.body.classList.add("dark-mode");
+
+    if(darkBtn){
+        darkBtn.innerHTML = "☀️";
+    }
+
+}
+
+// Toggle theme
+if(darkBtn){
+
+    darkBtn.addEventListener("click", function(){
+
+        document.body.classList.toggle("dark-mode");
+
+        if(document.body.classList.contains("dark-mode")){
+
+            localStorage.setItem("theme","dark");
+
+            darkBtn.innerHTML = "☀️";
+
+        }else{
+
+            localStorage.setItem("theme","light");
+
+            darkBtn.innerHTML = "🌙";
+
+        }
+
+    });
+
+}
+
+    </script>
+    
     <footer><p>© 2026 तिरुमला मार्केटिंग. सर्व हक्क सुरक्षित.</p><p>Developed by <a href="#">R Technologies</a></p></footer>
 </body>
 </html>

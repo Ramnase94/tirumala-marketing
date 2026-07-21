@@ -1,5 +1,10 @@
+const Razorpay = require("razorpay");
 const multer = require("multer");
 const express = require("express");
+const razorpay = new Razorpay({
+    key_id: "rzp_live_TG9enuqhqowGSM",
+    key_secret: "rSnYfshWDjC81Zu3kUe9acVN"
+});
 const fs = require("fs");
 const path = require("path");
 const bodyParser = require("body-parser");
@@ -65,7 +70,38 @@ const readDiary = (fileName) => {
 
 const writeDiary = (fileName, data) => fs.writeFileSync(path.join(__dirname, 'data', fileName), JSON.stringify(data, null, 2), 'utf8');
 
+
 app.get('/api/products', (req, res) => res.json(readDiary('products.json')));
+
+app.post("/api/create-order", async (req, res) => {
+
+    try {
+
+        const options = {
+
+            amount: req.body.amount * 100, // paise
+
+            currency: "INR",
+
+            receipt: "rcpt_" + Date.now()
+
+        };
+
+        const order = await razorpay.orders.create(options);
+
+        res.json(order);
+
+    } catch (err) {
+
+        console.error(err);
+
+        res.status(500).json({
+            error: "Unable to create Razorpay order"
+        });
+
+    }
+
+});
 app.post('/api/orders', (req, res) => {
 
     const orders = readDiary('orders.json');

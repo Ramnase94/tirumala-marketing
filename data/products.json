@@ -284,5 +284,15 @@
     "type": "Spicy",
     "desc": "",
     "image": "images/1784539029713.png"
+  },
+  {
+    "id": 1784641525232,
+    "name": "TIRUMALAS SPECIAL TST",
+    "category": "TEST",
+    "weight": "1",
+    "price": 1,
+    "type": "Spicy",
+    "desc": "TEST",
+    "image": "images/1784641525190.png"
   }
 ]

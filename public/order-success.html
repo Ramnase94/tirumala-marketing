@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>
+Order Successful - Tirumala Marketing
+</title>
+
+
+
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body><button id="darkModeToggle" class="dark-btn">
+🌙
+</button>
+
+<div class="success-container">
+
+    <div class="success-card">
+
+        <img src="images/logo.png" class="invoice-logo">
+
+        <h1>🎉 Order Placed Successfully</h1>
+
+        <p>
+            Thank you for shopping with
+            <b>Tirumala Marketing</b>
+        </p>
+
+        <div class="order-box">
+
+            <h3>Your Order Number</h3>
+
+            <h2 id="orderId"></h2>
+
+        </div>
+
+        <div class="btn-group">
+
+            <button
+                class="checkout-btn"
+                onclick="downloadInvoice()">
+
+                📄 Download Invoice
+
+            </button>
+
+            <button
+                class="checkout-btn"
+                onclick="goHome()">
+
+                🛍 Continue Shopping
+
+            </button>
+
+            <button
+                class="whatsapp-btn"
+                onclick="whatsappOrder()">
+
+                📲 WhatsApp Order
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const order = JSON.parse(localStorage.getItem("last_order"));
+
+if(order){
+
+document.getElementById("orderId").innerHTML =
+"Order ID : <b>"+order.orderId+"</b>";
+
+}else{
+
+document.getElementById("orderId").innerHTML =
+"No Order Found";
+
+}
+
+function goHome(){
+
+window.location.href="index.html";
+
+}
+
+function whatsappOrder(){
+
+if(!order) return;
+
+let msg =
+`🛒 Tirumala Marketing
+
+Order ID : ${order.orderId}
+
+Customer : ${order.name}
+
+Phone : ${order.phone}
+
+Address :
+${order.address}
+
+Total : Rs. ${order.totalAmount}`;
+
+window.open(
+"https://wa.me/?text="+encodeURIComponent(msg),
+"_blank"
+);
+
+}
+
+
+// ===== PDF Function =====
+// Part 3 मध्ये complete professional invoice code येईल.
+
+function downloadInvoice(){
+
+const { jsPDF } = window.jspdf;
+const doc = new jsPDF();
+
+const order = JSON.parse(localStorage.getItem("last_order"));
+
+if(!order){
+
+alert("Order Not Found");
+return;
+
+}
+
+const now = new Date();
+
+const orderDate = now.toLocaleDateString("en-IN");
+const orderTime = now.toLocaleTimeString("en-IN");
+
+// ===== BORDER =====
+
+doc.setDrawColor(180);
+doc.rect(10,10,190,277);
+
+// ===== LOGO =====
+
+const logo = new Image();
+
+logo.src = "images/logo.png";
+
+doc.addImage(
+logo,
+"PNG",
+10,   // Left
+5,    // Top
+65,   // Width
+65    // Height
+);
+
+// ===== SHOP HEADER =====
+
+doc.setFont("helvetica","bold");
+doc.setFontSize(20);
+
+doc.text(
+"TIRUMALA MARKETING",
+125,
+20,
+{align:"center"}
+);
+
+doc.setFont("helvetica","normal");
+doc.setFontSize(10);
+
+doc.text(
+"Quality Namkeen & Snacks",
+125,
+28,
+{align:"center"}
+);
+
+doc.text(
+"Nase Galli, Sonpeth",
+125,
+34,
+{align:"center"}
+);
+
+doc.text(
+"Parbhani - 431516",
+125,
+40,
+{align:"center"}
+);
+
+doc.text(
+"Phone : +91 9422916256",
+125,
+46,
+{align:"center"}
+);
+
+doc.line(15,55,195,55);
+
+// ===== CUSTOMER BOX =====
+
+doc.setFont("helvetica","bold");
+doc.setFontSize(12);
+
+doc.text(
+"Customer Details",
+20,
+66
+);
+
+doc.setFont("helvetica","normal");
+doc.setFontSize(10);
+
+doc.text(
+"Name : "+order.name,
+20,
+76
+);
+
+doc.text(
+"Phone : "+order.phone,
+20,
+84
+);
+
+doc.text(
+"Payment : " + order.paymentStatus,
+20,
+92
+);
+
+
+doc.text(
+"Txn ID : " + (order.transactionId || "-"),
+20,
+100
+);
+
+doc.text(
+"Date : "+orderDate,
+120,
+76
+);
+
+doc.text(
+"Time : "+orderTime,
+120,
+84
+);
+
+doc.text(
+"Order ID : "+order.orderId,
+120,
+92
+);
+
+
+doc.text(
+"Address :",
+20,
+110
+);
+
+const addressLines =
+doc.splitTextToSize(
+order.address,
+160
+);
+
+doc.text(
+addressLines,
+20,
+118
+);// ===== PRODUCT TABLE =====
+
+let y = 120 + (addressLines.length*7);
+
+doc.line(15,y,195,y);
+
+y += 8;
+
+doc.setFont("helvetica","bold");
+
+doc.text("Product",20,y);
+doc.text("Qty",110,y);
+doc.text("Rate",140,y);
+doc.text("Total",170,y);
+
+doc.line(15,y+3,195,y+3);
+
+doc.setFont("helvetica","normal");
+
+y += 12;
+
+// पुढचा code Part 3B मध्ये...
+// ===== Merge Same Products =====
+
+let mergedItems = {};
+
+order.items.forEach(item => {
+
+    const key = item.name;
+
+    if (mergedItems[key]) {
+
+        mergedItems[key].qty += item.qty || 1;
+
+    } else {
+
+        mergedItems[key] = {
+            name: item.name,
+            price: Number(item.price),
+            qty: item.qty || 1
+        };
+
+    }
+
+});
+
+Object.values(mergedItems).forEach(item => {
+
+    const total = item.qty * item.price;
+
+    doc.text(item.name,20,y);
+    doc.text(String(item.qty),112,y);
+    doc.text("Rs. "+item.price,138,y);
+    doc.text("Rs. "+total,168,y);
+
+    y += 10;
+
+});
+
+// ===== Grand Total =====
+
+doc.line(15,y,195,y);
+
+y += 15;
+
+doc.setFont("helvetica","bold");
+doc.setFontSize(14);
+
+doc.text("Grand Total :",20,y);
+doc.text("Rs. "+order.totalAmount,150,y);
+
+// ===== Footer =====
+
+y += 20;
+
+doc.setFont("helvetica","normal");
+doc.setFontSize(11);
+
+doc.text(
+"Thank You For Shopping With Us!",
+105,
+y,
+{align:"center"}
+);
+
+y += 8;
+
+doc.text(
+"Visit Again 🙏",
+105,
+y,
+{align:"center"}
+);
+
+doc.line(15,y+8,195,y+8);
+
+doc.setFontSize(9);
+
+doc.text(
+"Computer Generated Invoice",
+105,
+y+16,
+{align:"center"}
+);
+
+doc.text(
+"Tirumala Marketing",
+105,
+y+22,
+{align:"center"}
+);
+
+doc.text(
+"Authorized Signature",
+170,
+y+16,
+{align:"center"}
+);
+
+doc.line(145,y+10,190,y+10);
+
+// ===== Save =====
+
+doc.save(
+"Tirumala_Invoice_"+order.orderId+".pdf"
+);
+
+}
+
+const darkBtn = document.getElementById("darkModeToggle");
+
+// Load saved theme
+if(localStorage.getItem("theme") === "dark"){
+
+    document.body.classList.add("dark-mode");
+
+    if(darkBtn){
+        darkBtn.innerHTML = "☀️";
+    }
+
+}
+
+// Toggle theme
+if(darkBtn){
+
+    darkBtn.addEventListener("click", function(){
+
+        document.body.classList.toggle("dark-mode");
+
+        if(document.body.classList.contains("dark-mode")){
+
+            localStorage.setItem("theme","dark");
+
+            darkBtn.innerHTML = "☀️";
+
+        }else{
+
+            localStorage.setItem("theme","light");
+
+            darkBtn.innerHTML = "🌙";
+
+        }
+
+    });
+
+}
+
+
+
+</script>

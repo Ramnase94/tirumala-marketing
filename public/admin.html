@@ -457,7 +457,9 @@ load();
         <button class="btn-danger" onclick="logout()">
             Logout
         </button>
-
+<button id="darkModeToggle" class="dark-btn">
+🌙
+</button>
     </div>
 
 </div>
@@ -1573,13 +1575,12 @@ function closeOrder() {
     document.getElementById("orderModal").style.display = "none";
 
 }
+function printInvoice(){
 
-function printInvoice(orderId){
-
-    const order = fetchedOrders.find(o => o.orderId === orderId);
+    const order = window.currentOrder;
 
     if(!order){
-        alert("Order not found");
+        alert("Please open View Details first");
         return;
     }
 
@@ -1888,6 +1889,44 @@ function showPendingOrders(){
 }
 
 
+
+const darkBtn = document.getElementById("darkModeToggle");
+
+// Load saved theme
+if(localStorage.getItem("theme") === "dark"){
+
+    document.body.classList.add("dark-mode");
+
+    if(darkBtn){
+        darkBtn.innerHTML = "☀️";
+    }
+
+}
+
+// Toggle theme
+if(darkBtn){
+
+    darkBtn.addEventListener("click", function(){
+
+        document.body.classList.toggle("dark-mode");
+
+        if(document.body.classList.contains("dark-mode")){
+
+            localStorage.setItem("theme","dark");
+
+            darkBtn.innerHTML = "☀️";
+
+        }else{
+
+            localStorage.setItem("theme","light");
+
+            darkBtn.innerHTML = "🌙";
+
+        }
+
+    });
+
+}
 
 </script>
 </div>

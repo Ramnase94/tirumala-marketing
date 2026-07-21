@@ -231,6 +231,7 @@ document.getElementById("msg").innerText=data.message;
 
 <title>Tirumala Marketing | Admin Login</title>
 
+
 <link rel="stylesheet" href="css/style.css">
 
 <style>
@@ -434,8 +435,16 @@ color:#777;
 
 <body>
 
-<div class="login-card">
 
+    
+<div class="login-card">
+<nav>
+    
+    <button id="darkModeToggle" class="dark-btn">
+🌙
+</button>
+
+</nav>
 <img src="images/logo.png" class="logo">
 
 <h2>Admin Login</h2>
@@ -559,6 +568,47 @@ login();
 }
 
 });
+
+
+const darkBtn = document.getElementById("darkModeToggle");
+
+// Load saved theme
+if(localStorage.getItem("theme") === "dark"){
+
+    document.body.classList.add("dark-mode");
+
+    if(darkBtn){
+        darkBtn.innerHTML = "☀️";
+    }
+
+}
+
+// Toggle theme
+if(darkBtn){
+
+    darkBtn.addEventListener("click", function(){
+
+        document.body.classList.toggle("dark-mode");
+
+        if(document.body.classList.contains("dark-mode")){
+
+            localStorage.setItem("theme","dark");
+
+            darkBtn.innerHTML = "☀️";
+
+        }else{
+
+            localStorage.setItem("theme","light");
+
+            darkBtn.innerHTML = "🌙";
+
+        }
+
+    });
+
+}
+
+
 
 </script>
 

@@ -2,8 +2,8 @@ const Razorpay = require("razorpay");
 const multer = require("multer");
 const express = require("express");
 const razorpay = new Razorpay({
-    key_id: "rzp_live_TG9enuqhqowGSM",
-    key_secret: "rSnYfshWDjC81Zu3kUe9acVN"
+    key_id: "rzp_test_TGBcpDELYX7KM1",
+    key_secret: "X32bpHsSUGFFUciwgVIVurxq"
 });
 const fs = require("fs");
 const path = require("path");

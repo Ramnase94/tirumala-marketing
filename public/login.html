@@ -1,521 +1,137 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="mr">
+
 <head>
-    <meta charset="UTF-8">
-    <title>लॉगिन - Tirumala Marketing</title>
-    <link rel="stylesheet" href="css/style.css">
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Login | Tirumala Marketing</title>
+
+<link rel="stylesheet" href="css/style.css">
+
 </head>
-<body><div class="login-topbar">
-    <a href="index.html" style="color:white; text-decoration:none;">⬅️ मुख्य दुकान</a></div>
-<div class="login-card">        <h2>🔐 ॲडमिन लॉगिन</h2>
-        <input type="text" id="adminUser" placeholder="युझरनेम">
-        <input type="password" id="adminPass" placeholder="पासवर्ड">
-        <button class="btn" onclick="login()">प्रवेश करा</button>
+
+<body>
+
+<nav class="navbar">
+
+   <a href="index.html" class="brand">
+
+    <img src="images/logo.png" class="logo">
+
+    <div class="brand-text">
+
+        <h2>Tirumala Marketing</h2>
+
+        <p>Fresh Snacks & Namkeen</p>
+
     </div>
-    <script>
-        async function login() {
-            const res = await fetch('/api/admin/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username: document.getElementById('adminUser').value, password: document.getElementById('adminPass').value }) });
-            if (res.status === 200) { localStorage.setItem('isAdminLoggedIn', 'true'); window.location.href = 'admin.html'; }
-            else { alert('चुकीचे क्रेडेंशियल्स!'); }
-        }
-    </script>
-</body>
-</html> 
 
+</a>
 
-
-<!DOCTYPE html>
-<html lang="mr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Login | Tirumala Marketing</title>
-
-<link rel="stylesheet" href="css/style.css">
-
-<style>
-
-body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:linear-gradient(135deg,#ff6b35,#ff9800);
-}
-
-.login-box{
-
-    width:380px;
-    background:rgba(255,255,255,.15);
-    backdrop-filter:blur(18px);
-    border-radius:20px;
-    padding:35px;
-    text-align:center;
-    box-shadow:0 20px 40px rgba(0,0,0,.25);
-
-}
-
-.login-box img{
-    width:190px;
-    margin: bottom -30px;
-
-}
-
-.login-box h2{
-
-    color:white;
-    margin-bottom:25px;
-
-}
-
-.login-box input{
-
-    width:100%;
-    padding:14px;
-    margin:10px 0;
-    border:none;
-    border-radius:10px;
-    font-size:16px;
-    box-sizing:border-box;
-
-}
-
-.login-box button{
-
-    width:100%;
-    padding:14px;
-    margin-top:15px;
-    border:none;
-    border-radius:10px;
-    background:#fff;
-    color:#ff6b35;
-    font-size:17px;
-    font-weight:bold;
-    cursor:pointer;
-    transition:.3s;
-
-}
-
-.login-box button:hover{
-
-    transform:translateY(-3px);
-
-}
-
-.login-box p{
-
-    color:white;
-    font-size:14px;
-
-}
-
-.show-pass{
-
-    display:flex;
-    align-items:center;
-    color:white;
-    margin-top:8px;
-    font-size:14px;
-
-}
-
-.show-pass input{
-
-    width:auto;
-    margin-right:8px;
-
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="login-box">
-
-<img src="images/logo.png">
-
-<h2>⚙️ Admin Login</h2>
-
-<input
-type="text"
-id="username"
-placeholder="Username">
-
-<input
-type="password"
-id="password"
-placeholder="Password">
-
-<div class="show-pass">
-
-<input
-type="checkbox"
-onclick="togglePassword()">
-
-Show Password
-
-</div>
-
-<button onclick="login()">
-
-🔐 Login
-
-</button>
-
-<p id="msg"></p>
-
-</div>
-
-<script>
-
-function togglePassword(){
-
-const p=document.getElementById("password");
-
-p.type=p.type==="password"?"text":"password";
-
-}
-
-async function login(){
-
-const username=document.getElementById("username").value;
-
-const password=document.getElementById("password").value;
-
-const res=await fetch("/api/admin/login",{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-username,
-password
-})
-
-});
-
-const data=await res.json();
-
-if(data.success){
-
-localStorage.setItem("isAdminLoggedIn","true");
-
-window.location.href="admin.html";
-
-}else{
-
-document.getElementById("msg").innerText=data.message;
-
-}
-
-}
-
-</script>
-
-</body>
-</html>
-
---->
-<!DOCTYPE html>
-<html lang="mr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Tirumala Marketing | Admin Login</title>
-
-
-<link rel="stylesheet" href="css/style.css">
-
-<style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
-}
-
-body{
-
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    background:linear-gradient(135deg,#ff6b35,#ff9800);
-
-}
-
-.login-card{
-
-    width:380px;
-    background:#fff;
-    border-radius:20px;
-    padding:35px;
-    box-shadow:0 20px 40px rgba(0,0,0,.25);
-
-    text-align:center;
-
-    animation:fade .8s;
-
-}
-
-@keyframes fade{
-
-from{
-
-opacity:0;
-transform:translateY(40px);
-
-}
-
-to{
-
-opacity:1;
-transform:translateY(0);
-
-}
-
-}
-
-.logo{
-
-    height: 120px;
-width:150px;
-
-margin-bottom:-15px;
-
-animation:float 3s infinite ease-in-out;
-
-}
-
-@keyframes float{
-
-0%,100%{
-
-transform:translateY(0);
-
-}
-
-50%{
-
-transform:translateY(-10px);
-
-}
-
-}
-
-h2{
-
-color:#ff6b35;
-
-margin-bottom:8px;
-
-}
-
-p{
-
-color:#777;
-
-margin-bottom:25px;
-
-}
-
-.input-box{
-
-position:relative;
-
-margin-bottom:18px;
-
-}
-
-.input-box input{
-
-width:100%;
-
-padding:14px 45px 14px 15px;
-
-border:1px solid #ddd;
-
-border-radius:10px;
-
-font-size:16px;
-
-outline:none;
-
-transition:.3s;
-
-}
-
-.input-box input:focus{
-
-border-color:#ff6b35;
-
-box-shadow:0 0 8px rgba(255,107,53,.4);
-
-}
-
-.eye{
-
-position:absolute;
-
-right:15px;
-
-top:14px;
-
-cursor:pointer;
-
-font-size:18px;
-
-}
-
-.login-btn{
-
-width:100%;
-
-padding:14px;
-
-border:none;
-
-background:#ff6b35;
-
-color:#fff;
-
-font-size:17px;
-
-border-radius:10px;
-
-cursor:pointer;
-
-transition:.3s;
-
-font-weight:bold;
-
-}
-
-.login-btn:hover{
-
-background:#ff9800;
-
-transform:translateY(-3px);
-
-}
-
-#error{
-
-margin-top:15px;
-
-color:red;
-
-font-size:15px;
-
-}
-
-.footer{
-
-margin-top:25px;
-
-font-size:13px;
-
-color:#777;
-
-}
-
-</style>
-
-</head>
-
-<body>
-
-
-    
-<div class="login-card">
-<nav>
-    
-    <button id="darkModeToggle" class="dark-btn">
-🌙
-</button>
+    <button id="darkToggle" class="dark-btn">
+        🌙
+    </button>
 
 </nav>
-<img src="images/logo.png" class="logo">
 
-<h2>Admin Login</h2>
+<div class="login-page">
 
-<p>Welcome to Tirumala Marketing</p>
+    <div class="login-card">
 
-<div class="input-box">
+        <div class="login-logo">
+            
 
-<input
-type="text"
-id="username"
-placeholder="Username">
+            <img src="images/logo.png" class="login-logo-img">
+
+        </div>
+
+        <h1>Welcome Back 👋</h1>
+
+        <p class="login-subtitle">
+            Login to continue shopping
+        </p>
+
+        <div class="input-group">
+
+            <label>📱 Mobile Number</label>
+
+            <input
+            id="mobile"
+            type="text"
+            placeholder="Enter Mobile Number">
+
+        </div>
+
+        <div class="input-group">
+
+            <label>🔒 Password</label>
+
+            <div class="password-box">
+
+                <input
+                id="password"
+                type="password"
+                placeholder="Enter Password">
+
+                <span id="togglePassword">
+                    👁
+                </span>
+
+            </div>
+
+        </div>
+
+        <button class="login-btn" onclick="loginUser()">
+
+            Login
+
+        </button>
+        <div style="text-align:right;margin-top:10px;">
+
+    <a href="forgot-password.html"
+       style="color:#ff9800;font-weight:600;text-decoration:none;">
+
+        Forgot Password?
+
+    </a>
 
 </div>
 
-<div class="input-box">
+        <p class="register-link">
 
-<input
-type="password"
-id="password"
-placeholder="Password">
+            New User?
 
-<span
-class="eye"
-onclick="togglePassword()">
+            <a href="register.html">
 
-👁
+                Create Account
 
-</span>
+            </a>
 
-</div>
+        </p>
 
-<button
-class="login-btn"
-onclick="login()">
-
-🔐 Login
-
-</button>
-
-<div id="error"></div>
-
-<div class="footer">
-
-© Tirumala Marketing
+    </div>
 
 </div>
-
-</div>
-
 <script>
 
-function togglePassword(){
+async function loginUser(){
 
-const pass=document.getElementById("password");
-
-pass.type=pass.type==="password"?"text":"password";
-
-}
-
-async function login(){
-
-const username=document.getElementById("username").value;
+const mobile=document.getElementById("mobile").value.trim();
 
 const password=document.getElementById("password").value;
 
-const btn=document.querySelector(".login-btn");
+if(!mobile || !password){
 
-btn.innerHTML="⏳ Logging In...";
+alert("सर्व माहिती भरा");
 
-const res=await fetch("/api/admin/login",{
+return;
+
+}
+
+const response=await fetch("/api/login",{
 
 method:"POST",
 
@@ -527,7 +143,7 @@ headers:{
 
 body:JSON.stringify({
 
-username,
+mobile,
 
 password
 
@@ -535,82 +151,90 @@ password
 
 });
 
-const data=await res.json();
+const data=await response.json();
 
 if(data.success){
 
-localStorage.setItem("isAdminLoggedIn","true");
+localStorage.setItem(
 
-btn.innerHTML="✅ Success";
+"tirumala_user",
 
-setTimeout(()=>{
+JSON.stringify(data.user)
 
-window.location.href="admin.html";
+);
 
-},700);
+alert("Login Successful");
+
+window.location.href="profile.html";
 
 }else{
 
-document.getElementById("error").innerHTML=data.message;
-
-btn.innerHTML="🔐 Login";
+alert(data.message);
 
 }
 
 }
 
-document.addEventListener("keypress",function(e){
+// ===========================
+// SHOW / HIDE PASSWORD
+// ===========================
 
-if(e.key==="Enter"){
+document.getElementById("togglePassword").onclick = () => {
 
-login();
+    const pass = document.getElementById("password");
 
-}
+    if (pass.type === "password") {
 
-});
+        pass.type = "text";
 
+        document.getElementById("togglePassword").innerHTML = "🙈";
 
-const darkBtn = document.getElementById("darkModeToggle");
+    } else {
 
-// Load saved theme
-if(localStorage.getItem("theme") === "dark"){
+        pass.type = "password";
 
-    document.body.classList.add("dark-mode");
+        document.getElementById("togglePassword").innerHTML = "👁";
 
-    if(darkBtn){
-        darkBtn.innerHTML = "☀️";
     }
 
-}
+};
 
-// Toggle theme
-if(darkBtn){
+// ===========================
+// DARK MODE
+// ===========================
 
-    darkBtn.addEventListener("click", function(){
+const darkBtn = document.getElementById("darkToggle");
 
-        document.body.classList.toggle("dark-mode");
+if (localStorage.getItem("theme") === "dark") {
 
-        if(document.body.classList.contains("dark-mode")){
+    document.body.classList.add("dark");
 
-            localStorage.setItem("theme","dark");
-
-            darkBtn.innerHTML = "☀️";
-
-        }else{
-
-            localStorage.setItem("theme","light");
-
-            darkBtn.innerHTML = "🌙";
-
-        }
-
-    });
+    darkBtn.innerHTML = "☀️";
 
 }
 
+darkBtn.onclick = () => {
 
+    document.body.classList.toggle("dark");
+
+    if (document.body.classList.contains("dark")) {
+
+        localStorage.setItem("theme", "dark");
+
+        darkBtn.innerHTML = "☀️";
+
+    } else {
+
+        localStorage.setItem("theme", "light");
+
+        darkBtn.innerHTML = "🌙";
+
+    }
+
+};
 
 </script>
 
 </body>
+
 </html>

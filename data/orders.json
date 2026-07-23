@@ -858,5 +858,183 @@
     "totalAmount": 1,
     "date": "7/21/2026",
     "status": "Pending"
+  },
+  {
+    "orderId": "ORD1784728579076",
+    "customerName": "Ram Govind Nase",
+    "phone": "09422916256",
+    "address": "Near old police station",
+    "items": [
+      {
+        "id": 1784534045552,
+        "name": "r",
+        "category": "r",
+        "weight": "10",
+        "price": 100,
+        "type": "Spicy",
+        "desc": "w",
+        "image": "images/1784534045546.png",
+        "qty": 2
+      }
+    ],
+    "totalAmount": 200,
+    "date": "7/22/2026",
+    "status": "Pending"
+  },
+  {
+    "orderId": "ORD1784738387157",
+    "customerName": "Ram Govind Nase",
+    "phone": "09422916256",
+    "address": "Near old police station",
+    "items": [
+      {
+        "id": 1784530558916,
+        "name": "kharodi",
+        "category": "fry",
+        "weight": "150gm",
+        "price": 149,
+        "type": "Non-Spicy",
+        "desc": "om namah shivay",
+        "image": "images/1784530558908.png",
+        "qty": 1
+      }
+    ],
+    "totalAmount": 149,
+    "date": "7/22/2026",
+    "status": "Pending"
+  },
+  {
+    "orderId": "ORD1784738976104",
+    "customerName": "Swati Ram Nase",
+    "phone": "09422916256",
+    "address": "Near old police station",
+    "items": [
+      {
+        "id": 1784530558916,
+        "name": "kharodi",
+        "category": "fry",
+        "weight": "150gm",
+        "price": 149,
+        "type": "Non-Spicy",
+        "desc": "om namah shivay",
+        "image": "images/1784530558908.png",
+        "qty": 1
+      },
+      {
+        "id": 1784532103995,
+        "name": "roasted pinuts",
+        "category": "roast",
+        "weight": "100",
+        "price": 50,
+        "type": "Spicy",
+        "desc": "roasted product",
+        "image": "images/1784532103985.png",
+        "qty": 1
+      }
+    ],
+    "totalAmount": 199,
+    "date": "7/22/2026",
+    "status": "Pending"
+  },
+  {
+    "orderId": "ORD1784740129011",
+    "customerName": "ram",
+    "phone": "9422916256",
+    "address": "nase galli",
+    "items": [
+      {
+        "id": 1784532103995,
+        "name": "roasted pinuts",
+        "category": "roast",
+        "weight": "100",
+        "price": 50,
+        "type": "Spicy",
+        "desc": "roasted product",
+        "image": "images/1784532103985.png",
+        "qty": 1
+      }
+    ],
+    "totalAmount": 50,
+    "date": "7/22/2026",
+    "status": "Pending",
+    "paymentMethod": "Online",
+    "paymentStatus": "Paid",
+    "transactionId": "pay_TGcpm7GBZAFkVP"
+  },
+  {
+    "orderId": "ORD1784741003206",
+    "customerName": "Ram Govind Nase",
+    "phone": "9422916256",
+    "address": "Near old police station",
+    "items": [
+      {
+        "id": 1784533733814,
+        "name": "shev",
+        "category": "fry",
+        "weight": "200",
+        "price": 500,
+        "type": "Spicy",
+        "desc": "excellet",
+        "image": "images/1784533733804.png",
+        "qty": 1
+      },
+      {
+        "id": 1784532518928,
+        "name": "MK",
+        "category": "FRY",
+        "weight": "100GM",
+        "price": 78,
+        "type": "Spicy",
+        "desc": "MK",
+        "image": "images/1784532518922.png",
+        "qty": 1
+      },
+      {
+        "id": 1784533741800,
+        "name": "shev",
+        "category": "fry",
+        "weight": "200",
+        "price": 500,
+        "type": "Spicy",
+        "desc": "excellet",
+        "image": "images/1784533741778.png",
+        "qty": 1
+      },
+      {
+        "id": 1784533743803,
+        "name": "shev",
+        "category": "fry",
+        "weight": "200",
+        "price": 500,
+        "type": "Spicy",
+        "desc": "excellet",
+        "image": "images/1784533743785.png",
+        "qty": 1
+      },
+      {
+        "id": 1784528403340,
+        "name": "kharodi",
+        "category": "fry",
+        "weight": "1000",
+        "price": 300,
+        "type": "Non-Spicy",
+        "qty": 1
+      },
+      {
+        "id": 1784528379646,
+        "name": "Shev",
+        "category": "fry",
+        "weight": "5000",
+        "price": 1000,
+        "type": "Spicy",
+        "qty": 1
+      }
+    ],
+    "totalAmount": 2878,
+    "date": "7/22/2026",
+    "status": "Pending",
+    "paymentMethod": "Online",
+    "paymentStatus": "Paid",
+    "transactionId": "pay_TGd59vYMrbGuyx"
   }
 ]

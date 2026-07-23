@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="mr">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>My Profile</title>
+
+<link rel="stylesheet"href="css/style.css">
+
+</head>
+
+<body>
+
+
+<nav class="navbar">
+
+    <a href="index.html" class="brand">
+        <img src="images/logo.png" class="logo">
+        <span>Tirumala Marketing</span>
+    </a>
+
+    <div class="links">
+        <a href="index.html">🏠 Home</a>
+        <a href="products.html">🛍 Products</a>
+        <a href="cart.html">🛒 Cart</a>
+
+        <button id="darkToggle" class="dark-btn">
+            🌙
+        </button>
+    </div>
+
+</nav>
+
+<div class="profile-container">
+
+    <!-- LEFT PANEL -->
+
+  <div class="profile-sidebar">
+
+    <div class="profile-cover"></div>
+
+    <div class="profile-photo-wrapper">
+
+        <img
+            id="profileImage"
+            src="images/user.png"
+            class="profile-photo">
+
+        <label class="camera-btn">
+
+            📷
+
+            <input
+                type="file"
+                id="photoInput"
+                hidden>
+
+        </label>
+
+    </div>
+
+    <h2 id="profileName">
+
+        Loading...
+
+    </h2>
+
+    <div class="verified-badge">
+
+        ✅ Verified Customer
+
+    </div>
+
+    <div class="profile-info">
+
+        <p>
+
+            📱
+            <span id="profileMobile"></span>
+
+        </p>
+
+        <p>
+
+            📍
+            <span id="profileAddress"></span>
+
+        </p>
+
+    </div>
+
+    <button
+        class="profile-btn"
+        onclick="openEditProfile()">
+
+        ✏ Edit Profile
+
+    </button>
+
+    <button
+        class="logout-btn"
+        id="logoutBtn">
+
+        🚪 Logout
+
+    </button>
+
+</div>
+    <!-- RIGHT PANEL -->
+
+    <div class="profile-content">
+
+        <!-- DASHBOARD -->
+
+<div class="profile-dashboard">
+
+    <div class="dashboard-card">
+
+        <div class="dashboard-icon">📦</div>
+
+        <h3 id="totalOrders">0</h3>
+
+        <p>Total Orders</p>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <div class="dashboard-icon">💰</div>
+
+        <h3>₹<span id="totalSpent">0</span></h3>
+
+        <p>Total Spending</p>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <div class="dashboard-icon">⭐</div>
+
+        <h3 id="reviewCount">0</h3>
+
+        <p>Reviews</p>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <div class="dashboard-icon">❤️</div>
+
+        <h3>0</h3>
+
+        <p>Wishlist</p>
+
+    </div>
+
+</div>
+
+        <!-- ORDER FILTERS -->
+
+        <div class="order-tabs">
+
+            <button class="tab active" data-status="all">
+                All
+            </button>
+
+            <button class="tab" data-status="Pending">
+                Pending
+            </button>
+
+            <button class="tab" data-status="Completed">
+                Completed
+            </button>
+
+            <button class="tab" data-status="Cancelled">
+                Cancelled
+            </button>
+
+        </div>
+
+        <!-- ORDERS -->
+
+        <div id="ordersList"></div>
+
+        <!-- ADDRESS -->
+
+        <div class="address-card">
+
+            <h3>
+                📍 Delivery Address
+            </h3>
+
+            <textarea
+                id="userAddress"
+                rows="5"
+                placeholder="Enter Delivery Address">
+            </textarea>
+
+            <button
+                class="save-btn"
+                onclick="saveAddress()">
+
+                💾 Save Address
+
+            </button>
+
+        </div>
+<
+        <!-- PASSWORD -->
+
+        <div class="password-card">
+
+            <h3>
+                🔐 Change Password
+            </h3>
+
+            <input
+                type="password"
+                placeholder="Current Password"
+                id="currentPassword">
+
+            <input
+                type="password"
+                placeholder="New Password"
+                id="newPassword">
+
+            <input
+                type="password"
+                placeholder="Confirm Password"
+                id="confirmPassword">
+
+            <button id="savePasswordBtn">
+
+                Save Password
+
+            </button>
+
+        </div>
+
+    </div>
+</div>
+</div>
+<script>
+
+
+const currentUser =
+
+JSON.parse(localStorage.getItem("tirumala_user"));
+let allOrders = [];
+if (!currentUser) {
+
+    alert("Please Login First");
+
+    location.href = "login.html";
+
+}
+
+async function loadProfile() {
+
+    const res = await fetch("/api/profile/" + currentUser.mobile);
+
+    const data = await res.json();
+
+    document.getElementById("profileName").innerText =
+        data.user.name;
+
+    document.getElementById("profileMobile").innerText =
+        data.user.mobile;
+
+    document.getElementById("profileAddress").innerText =
+        data.user.address || "Address not added";
+
+if(data.user.photo){
+
+    document.getElementById("profileImage").src = data.user.photo;
+
+}else{
+
+    document.getElementById("profileImage").src = "images/logo.png";
+
+}
+    document.getElementById("userAddress").value =
+        data.user.address || "";
+
+}
+
+async function loadOrders(filter = "all") {
+
+    const res =
+        await fetch("/api/user/orders/" + currentUser.mobile);
+
+    allOrders = await res.json();
+
+    let orders = allOrders;
+
+    if (filter !== "all") {
+
+        orders =
+            orders.filter(o => o.status === filter);
+
+    }
+
+    const box =
+        document.getElementById("ordersList");
+
+    if (orders.length === 0) {
+
+        box.innerHTML = `
+
+        <div class="order-card">
+
+            <h3>No Orders Found</h3>
+
+        </div>
+
+        `;
+
+        return;
+
+    }
+
+    let html = "";
+
+    orders.reverse().forEach(order => {
+
+        let items = "";
+
+        order.items.forEach(item => {
+
+            items += `
+
+            <div class="order-item">
+
+                <img src="${item.image}">
+
+                <div class="order-item-info">
+
+                    <div class="order-item-name">
+
+                        ${item.name}
+
+                    </div>
+
+                    Qty : ${item.qty}
+
+                    <br>
+
+                    ₹${item.price}
+
+                </div>
+
+            </div>
+
+            `;
+
+        });
+
+        html += `
+
+        <div class="order-card">
+
+            <div class="order-top">
+
+                <div class="order-id">
+
+                    ${order.orderId}
+
+                </div>
+
+                <div class="order-status status-${order.status.toLowerCase()}">
+
+                    ${order.status}
+
+                </div>
+
+            </div>
+
+            ${items}
+
+            <div class="order-total">
+
+                ₹${order.totalAmount}
+
+            </div>
+
+            <button
+                class="invoice-btn"
+                onclick="viewInvoice('${order.orderId}')">
+
+                📄 View Invoice
+
+            </button>
+
+        </div>
+
+        `;
+
+    });
+
+    box.innerHTML = html;
+
+}
+window.onload = () => {
+
+    loadProfile();
+
+    loadOrders("all");
+
+};
+// =========================
+// SAVE ADDRESS
+// =========================
+
+async function saveAddress() {
+
+    const address =
+        document.getElementById("userAddress").value;
+
+    const res =
+        await fetch("/api/profile/address", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+
+                mobile: currentUser.mobile,
+
+                address
+
+            })
+
+        });
+
+    const result = await res.json();
+
+    alert(result.message);
+
+    loadProfile();
+
+}
+
+
+// =========================
+// VIEW INVOICE
+// =========================
+
+function viewInvoice(orderId){
+
+    const order = allOrders.find(o => o.orderId === orderId);
+
+    if(!order){
+
+        alert("Invoice not found");
+
+        return;
+
+    }
+
+    localStorage.setItem("last_order", JSON.stringify(order));
+
+    window.location.href = "invoice.html";
+
+}
+
+// =========================
+// EDIT PROFILE
+// =========================
+
+function openEditProfile() {
+
+    document.getElementById("editProfileModal").style.display = "flex";
+
+    document.getElementById("editName").value =
+        document.getElementById("profileName").innerText;
+
+    document.getElementById("editAddress").value =
+        document.getElementById("userAddress").value;
+
+}
+
+function closeEditProfile() {
+
+    document.getElementById("editProfileModal").style.display = "none";
+
+}
+
+async function saveProfile() {
+
+    const name =
+        document.getElementById("editName").value;
+
+    const address =
+        document.getElementById("editAddress").value;
+
+    const res =
+        await fetch("/api/profile/update", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+
+                mobile: currentUser.mobile,
+
+                name,
+
+                address
+
+            })
+
+        });
+
+    const result = await res.json();
+
+    alert(result.message);
+
+    closeEditProfile();
+
+    loadProfile();
+
+}
+
+// =========================
+// LOGOUT
+// =========================
+
+function logoutUser() {
+
+    localStorage.removeItem("tirumala_user");
+
+    location.href = "login.html";
+
+}
+
+// =========================
+// CHANGE PHOTO (Placeholder)
+// =========================
+document.getElementById("photoInput").addEventListener("change", async function(){
+
+    const file = this.files[0];
+
+    if(!file) return;
+
+    const formData = new FormData();
+
+    formData.append("photo", file);
+
+    formData.append("mobile", currentUser.mobile);
+
+    const res = await fetch("/api/profile/photo",{
+
+        method:"POST",
+
+        body:formData
+
+    });
+
+    const data = await res.json();
+
+    if(data.success){
+
+        document.getElementById("profileImage").src =
+        data.photo + "?t=" + Date.now();
+
+        alert("Profile Photo Updated ✅");
+
+    }else{
+
+        alert(data.message);
+
+    }
+
+});
+
+
+// =========================
+// CHANGE PASSWORD
+// =========================
+
+async function changePassword() {
+
+    const currentPassword =
+        document.getElementById("currentPassword").value;
+
+    const newPassword =
+        document.getElementById("newPassword").value;
+
+    const confirmPassword =
+        document.getElementById("confirmPassword").value;
+
+    if (newPassword !== confirmPassword) {
+
+        alert("New Password आणि Confirm Password सारखे नाहीत.");
+
+        return;
+
+    }
+
+    const res = await fetch("/api/profile/change-password", {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+
+            mobile: currentUser.mobile,
+
+            currentPassword,
+
+            newPassword
+
+        })
+
+    });
+
+    const result = await res.json();
+
+    alert(result.message);
+
+    if (result.success) {
+
+        document.getElementById("currentPassword").value = "";
+        document.getElementById("newPassword").value = "";
+        document.getElementById("confirmPassword").value = "";
+
+    }
+
+}
+
+// =========================
+// VIEW INVOICE
+// =========================
+/*
+function viewInvoice(orderId) {
+
+    localStorage.setItem("invoiceOrderId", orderId);
+
+    window.location.href = "invoice.html";
+
+}
+*/
+// =========================
+// PAYMENT HISTORY
+// =========================
+
+function loadPaymentHistory() {
+
+    console.log("Payment History Ready");
+
+}
+
+// =========================
+// FUTURE FEATURES
+// =========================
+
+// Profile Photo Upload
+// OTP Password Reset
+// OTP Change Password
+// Razorpay History
+// PDF Invoice Download
+
+console.log("✅ Profile V2 Loaded Successfully");
+
+
+const darkBtn = document.getElementById("darkToggle");
+
+if(localStorage.getItem("theme") === "dark"){
+
+    document.body.classList.add("dark");
+
+    darkBtn.innerHTML="☀️";
+
+}
+
+darkBtn.onclick = () => {
+
+    document.body.classList.toggle("dark");
+
+    if(document.body.classList.contains("dark")){
+
+        localStorage.setItem("theme","dark");
+
+        darkBtn.innerHTML="☀️";
+
+    }else{
+
+        localStorage.setItem("theme","light");
+
+        darkBtn.innerHTML="🌙";
+
+    }
+
+};
+
+// Logout
+
+document.getElementById("logoutBtn").onclick = function () {
+
+    if (confirm("Logout करायचं आहे का?")) {
+
+        localStorage.removeItem("tirumala_user");
+
+        window.location.href = "login.html";
+
+    }
+
+};
+
+</script>
+
+</body>
+</html>

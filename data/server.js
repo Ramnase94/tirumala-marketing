@@ -29,7 +29,7 @@ app.get('/api/products', (req, res) => res.json(readDiary('products.json')));
 
 app.post('/api/orders', (req, res) => {
     const orders = readDiary('orders.json');
-    const newOrder = {
+  /*  const newOrder = {
         orderId: 'ORD' + Date.now(),
         customerName: req.body.name,
         phone: req.body.phone,
@@ -37,7 +37,44 @@ app.post('/api/orders', (req, res) => {
         items: req.body.items,
         totalAmount: req.body.totalAmount,
         date: new Date().toLocaleDateString()
-    };
+    };*/
+    const newOrder = {
+
+    orderId: 'ORD' + Date.now(),
+
+    customerName: req.body.name,
+
+    phone: req.body.phone,
+
+    address: req.body.address,
+
+    items: req.body.items,
+
+    totalAmount: req.body.totalAmount,
+
+    date: new Date().toLocaleDateString(),
+
+    status: "Pending",
+/*
+    paymentMethod: req.body.paymentMethod || "Cash On Delivery",
+
+    paymentStatus:
+        req.body.paymentMethod === "Online"
+            ? "Paid"
+            : "Pending",
+
+    transactionId: req.body.transactionId || ""*/
+
+    paymentMethod:
+    req.body.paymentMethod || "Cash On Delivery",
+
+paymentStatus:
+    req.body.paymentStatus || "Pending",
+
+transactionId:
+    req.body.transactionId || ""
+};
+    
     orders.push(newOrder);
     writeDiary('orders.json', orders);
     res.json({ message: 'ऑर्डर यशस्वीरीत्या नोंदवली गेली!', orderId: newOrder.orderId });

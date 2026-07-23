@@ -751,13 +751,67 @@ async function sendOrderCOD(paymentStatus = "COD", transactionId = ""){
     const name = document.getElementById("custName").value;
     const phone = document.getElementById("custPhone").value;
     const address = document.getElementById("custAddress").value;
-    
-     const res = await fetch('/api/orders', { method: 'POST', headers: { 'Content-Type': 'application/json' }, 
-            
-            body: JSON.stringify({ name, phone, address, items: shoppingCart, totalAmount: 
-                Number(document.getElementById('totalBill').innerText) }) });
 
+    console.log({
+    name,
+    phone,
+    address,
+    items: shoppingCart,
+    totalAmount: Number(document.getElementById("totalBill").innerText)
+});
+   const paymentMethod =
+paymentStatus === "PAID"
+? "Online"
+: "Cash On Delivery";
+/*
+const transactionId =
+    window.razorpay_payment_id || "";*/
 
+const res = await fetch('/api/orders', {
+
+    method: 'POST',
+
+    headers: {
+        'Content-Type': 'application/json'
+    },
+/*
+    body: JSON.stringify({
+
+        name,
+        phone,
+        address,
+        items: shoppingCart,
+
+        totalAmount:
+            Number(document.getElementById('totalBill').innerText),
+
+        paymentMethod,
+
+        transactionId
+
+    })*/
+   body: JSON.stringify({
+
+    name,
+    phone,
+    address,
+    items: shoppingCart,
+
+    totalAmount:
+        Number(document.getElementById("totalBill").innerText),
+
+    paymentMethod,
+
+    paymentStatus:
+        paymentStatus === "PAID"
+            ? "Paid"
+            : "Pending",
+
+    transactionId
+
+})
+
+});
 const reply = await res.json();
 
 alert(`🎉 ${reply.message}\nऑर्डर नंबर: ${reply.orderId}`);       

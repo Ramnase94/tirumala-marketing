@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Register</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+<nav class="navbar">
+
+    <a href="index.html" class="brand">
+
+        <img src="images/logo.png" class="logo">
+
+        <div class="brand-text">
+
+            <h2>Tirumala Marketing</h2>
+
+            <p>Fresh Snacks & Namkeen</p>
+
+        </div>
+
+    </a>
+
+    <button id="darkToggle" class="dark-btn">
+        🌙
+    </button>
+
+</nav>
+
+<div class="login-page">
+
+    <div class="login-card">
+
+        <div class="login-header">
+
+            <img src="images/logo.png" class="login-logo-img">
+
+            <h2>Create Account</h2>
+
+            <p>Register to start shopping</p>
+
+        </div>
+
+        <div class="input-group">
+
+            <label>👤 Full Name</label>
+
+            <input
+                id="name"
+                type="text"
+                placeholder="Enter Full Name">
+
+        </div>
+
+        <div class="input-group">
+
+            <label>📱 Mobile Number</label>
+
+            <input
+                id="mobile"
+                type="text"
+                placeholder="Enter Mobile Number">
+
+        </div>
+
+        <div class="input-group">
+
+    <label>📧 Email Address</label>
+
+    <input
+        id="email"
+        type="email"
+        placeholder="Enter Email Address">
+
+</div>
+        <div class="input-group">
+
+            <label>🔒 Password</label>
+
+            <div class="password-box">
+
+                <input
+                    id="password"
+                    type="password"
+                    placeholder="Enter Password">
+
+                <span id="togglePassword1">👁</span>
+
+            </div>
+
+        </div>
+
+        <div class="input-group">
+
+            <label>🔐 Confirm Password</label>
+
+            <div class="password-box">
+
+                <input
+                    id="confirmPassword"
+                    type="password"
+                    placeholder="Confirm Password">
+
+                <span id="togglePassword2">👁</span>
+
+            </div>
+
+        </div>
+<button
+    class="login-btn"
+    id="sendOtpBtn">
+
+    📧 Send OTP
+
+</button>
+
+<div class="input-group" id="otpSection" style="display:none;">
+
+    <label>🔢 Enter OTP</label>
+
+    <input
+        id="otp"
+        type="text"
+        placeholder="Enter 6 Digit OTP">
+
+</div>
+
+<button
+    class="login-btn"
+    id="verifyOtpBtn"
+    style="display:none;">
+
+    ✅ Verify OTP & Create Account
+
+</button>
+        <div class="login-footer">
+
+            Already have an account?
+
+            <a href="login.html">
+
+                Login
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+
+    let otpVerified = false;
+async function registerUser(){
+
+    console.log("REGISTER USER CALLED");
+
+    const name = document.getElementById("name").value.trim();
+    const mobile = document.getElementById("mobile").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const confirm = document.getElementById("confirmPassword").value;
+
+    if(!name || !mobile || !email || !password || !confirm){
+
+        alert("सर्व माहिती भरा");
+
+        return;
+
+    }
+
+    if(password.length < 6){
+
+        alert("Password कमीत कमी 6 अक्षरांचा असावा");
+
+        return;
+
+    }
+
+    if(password !== confirm){
+
+        alert("Password आणि Confirm Password सारखे नाहीत");
+
+        return;
+
+    }
+
+    if(!otpVerified){
+
+    alert("आधी OTP Verify करा");
+
+    return;
+
+}
+
+    const res = await fetch("/api/register",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+      body:JSON.stringify({
+
+    name,
+    mobile,
+    email,
+    password,
+    otp: document.getElementById("otp").value.trim()
+
+})
+
+    });
+
+    const data = await res.json();
+
+    alert(data.message);
+
+    if(data.success){
+
+        location.href = "login.html";
+
+    }
+
+}
+document.getElementById("togglePassword1").onclick = function(){
+
+const pass = document.getElementById("password");
+
+if(pass.type === "password"){
+
+pass.type = "text";
+
+this.innerHTML = "🙈";
+
+}else{
+
+pass.type = "password";
+
+this.innerHTML = "👁";
+
+}
+
+};
+
+document.getElementById("togglePassword2").onclick = function(){
+
+const pass = document.getElementById("confirmPassword");
+
+if(pass.type === "password"){
+
+pass.type = "text";
+
+this.innerHTML = "🙈";
+
+}else{
+
+pass.type = "password";
+
+this.innerHTML = "👁";
+
+}
+
+};
+
+const darkBtn = document.getElementById("darkToggle");
+
+if(localStorage.getItem("theme")==="dark"){
+
+document.body.classList.add("dark");
+
+darkBtn.innerHTML="☀️";
+
+}
+
+darkBtn.onclick=function(){
+
+document.body.classList.toggle("dark");
+
+if(document.body.classList.contains("dark")){
+
+localStorage.setItem("theme","dark");
+
+darkBtn.innerHTML="☀️";
+
+}else{
+
+localStorage.setItem("theme","light");
+
+darkBtn.innerHTML="🌙";
+
+}
+
+};
+
+
+// ==========================
+// SEND OTP
+// ==========================
+
+document.getElementById("sendOtpBtn").onclick = async function(){
+
+    const email = document.getElementById("email").value.trim();
+
+    if(!email){
+
+        alert("Email टाका");
+
+        return;
+
+    }
+
+    const res = await fetch("/api/send-otp",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+            email
+        })
+
+    });
+
+    const data = await res.json();
+
+    alert(data.message);
+
+    if(data.success){
+
+        document.getElementById("otpSection").style.display="block";
+
+        document.getElementById("verifyOtpBtn").style.display="block";
+
+        this.style.display="none";
+
+    }
+
+};
+
+// ==========================
+// VERIFY OTP
+// ==========================
+
+document.getElementById("verifyOtpBtn").onclick = async function(){
+
+    const email = document.getElementById("email").value.trim();
+
+    const otp = document.getElementById("otp").value.trim();
+
+    if(!otp){
+
+        alert("OTP टाका");
+
+        return;
+
+    }
+
+    const res = await fetch("/api/verify-otp",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+
+            email,
+
+            otp
+
+        })
+
+    });
+
+    const data = await res.json();
+
+   if(data.success){
+
+    otpVerified = true;
+
+    console.log("OTP VERIFIED");
+
+    registerUser();
+
+}
+
+};
+</script>
+
+</body>
+</html>

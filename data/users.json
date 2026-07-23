@@ -1,0 +1,45 @@
+[
+  {
+    "id": 1784722778176,
+    "name": "Ram",
+    "mobile": "9422916256",
+    "password": "$2b$10$QMq2skw5Phsd74G4iglP4u36sOyPNGOOlF.5SIBt4V7G5EUKMrDNy",
+    "createdAt": "2026-07-22T12:19:38.176Z",
+    "address": "Nase galli, sonpeth 431516 , Maharashtra ",
+    "photo": "/images/1784823326122.png"
+  },
+  {
+    "id": 1784814550345,
+    "name": "swati",
+    "mobile": "9673800512",
+    "password": "$2b$10$rYgLE9MS7rGmKuvkpOK3euKOEhZdps2OQrdX90YUKTBthHxofImZy",
+    "createdAt": "2026-07-23T13:49:10.345Z"
+  },
+  {
+    "id": 1784815834045,
+    "name": "Ram Govind Nase",
+    "mobile": "09422916256",
+    "email": "ramnase94@gmail.com",
+    "password": "$2b$10$zx0sxn00AvrAsHcl/oGv9ubiL0ygaHrnA1DHznSCRyqt1Jo7zzcO.",
+    "address": "",
+    "createdAt": "2026-07-23T14:10:34.045Z"
+  },
+  {
+    "id": 1784817538821,
+    "name": "karan Govind Nase",
+    "mobile": "8007272277",
+    "email": "karannase33@gmail.com",
+    "password": "$2b$10$IghXfNDLgT9Ps3N8fPVQdOyiSvPReck67aW3wlSPyRbIXvQtDMjzC",
+    "address": "",
+    "createdAt": "2026-07-23T14:38:58.821Z"
+  },
+  {
+    "id": 1784820421773,
+    "name": "ROHINI BABAN MULE",
+    "mobile": "8888888888",
+    "email": "rtechnologies94@gmail.com",
+    "password": "$2b$10$WkTOFr1MWPVZobNuuBGR5uQ4YWx7bcWt1r1l7vvPiF0daTyZPwy9a",
+    "address": "",
+    "createdAt": "2026-07-23T15:27:01.773Z"
+  }
+]

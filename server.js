@@ -8,6 +8,28 @@ const razorpay = new Razorpay({
 const fs = require("fs");
 const path = require("path");
 const bodyParser = require("body-parser");
+const bcrypt = require("bcrypt");
+const nodemailer = require("nodemailer");
+// ======================
+// EMAIL CONFIG
+// ======================
+
+const transporter = nodemailer.createTransport({
+
+    service: "gmail",
+
+    auth: {
+
+        user: "ramnase94@gmail.com",
+
+        pass: "dubg ypno ankz bluw"
+
+    }
+    
+
+});
+
+const otpStore = {};
 
 const app = express();
 const PORT = 3000;
@@ -69,9 +91,446 @@ const readDiary = (fileName) => {
 };
 
 const writeDiary = (fileName, data) => fs.writeFileSync(path.join(__dirname, 'data', fileName), JSON.stringify(data, null, 2), 'utf8');
+// ==========================
+// Users Database
+// ==========================
+
+function getUsers() {
+    return readDiary("users.json");
+}
+
+function saveUsers(users) {
+    writeDiary("users.json", users);
+}
 
 
 app.get('/api/products', (req, res) => res.json(readDiary('products.json')));
+
+// ==========================
+// User Registration
+// ==========================
+
+app.post("/api/register", async (req, res) => {
+    console.log("REGISTER BODY:", req.body);
+console.log("OTP STORE:", otpStore);
+
+const { name, mobile, email, password, otp } = req.body;
+if (!name || !mobile || !email || !password) {      
+      return res.status(400).json({
+            success: false,
+            message: "सर्व माहिती भरा."
+        });
+    }
+
+    if (!otpStore[email]) {
+
+    return res.json({
+        success: false,
+        message: "OTP Verify करा."
+    });
+
+}
+
+if (Date.now() > otpStore[email].expires) {
+
+    delete otpStore[email];
+
+    return res.json({
+        success: false,
+        message: "OTP Expired"
+    });
+
+}
+
+if (otpStore[email].otp !== otp) {
+
+    return res.json({
+        success: false,
+        message: "Wrong OTP"
+    });
+
+}
+
+delete otpStore[email];
+
+    let users = getUsers();
+
+const exists = users.find(user =>
+    user.mobile === mobile ||
+    user.email === email
+);
+    if (exists) {
+        return res.json({
+            success: false,
+message: "मोबाईल नंबर किंवा Email आधीच नोंदणीकृत आहे."        });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+   users.push({
+
+    id: Date.now(),
+
+    name,
+
+    mobile,
+
+    email,
+
+    password: hashedPassword,
+
+    address: "",
+
+    createdAt: new Date().toISOString()
+
+});
+
+    saveUsers(users);
+
+    res.json({
+        success: true,
+        message: "Registration Successful"
+    });
+
+});
+
+
+// ==========================
+// SEND EMAIL OTP
+// ==========================
+
+app.post("/api/send-otp", async (req, res) => {
+
+    const { email } = req.body;
+
+    if (!email) {
+
+        return res.json({
+            success: false,
+            message: "Email Required"
+        });
+
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+    otpStore[email] = {
+
+        otp,
+
+        expires: Date.now() + 5 * 60 * 1000
+
+    };
+
+    try {
+
+        await transporter.sendMail({
+
+            from: "Tirumala Marketing",
+
+            to: email,
+
+            subject: "Your OTP Verification Code",
+
+            html: `
+                <h2>Tirumala Marketing</h2>
+                <h3>Your OTP is:</h3>
+                <h1>${otp}</h1>
+                <p>This OTP is valid for 5 minutes.</p>
+            `
+
+        });
+
+        res.json({
+
+            success: true,
+
+            message: "OTP Sent Successfully"
+
+        });
+
+    } catch (err) {
+
+        console.log(err);
+
+        res.json({
+
+            success: false,
+
+            message: "OTP Sending Failed"
+
+        });
+
+    }
+
+});
+
+
+
+// ==========================
+// VERIFY OTP
+// ==========================
+
+app.post("/api/verify-otp", (req, res) => {
+
+    const { email, otp } = req.body;
+
+    if(!otpStore[email]){
+
+        return res.json({
+
+            success:false,
+
+            message:"OTP सापडला नाही."
+
+        });
+
+    }
+
+    if(Date.now() > otpStore[email].expires){
+
+
+        return res.json({
+
+            success:false,
+
+            message:"OTP Expired"
+
+        });
+
+    }
+
+    if(otpStore[email].otp !== otp){
+
+        return res.json({
+
+            success:false,
+
+            message:"Wrong OTP"
+
+        });
+
+    }
+
+
+    res.json({
+
+        success:true,
+
+        message:"OTP Verified"
+
+    });
+
+});
+
+
+
+// ==========================
+// RESET PASSWORD
+// ==========================
+
+app.post("/api/reset-password", async (req, res) => {
+
+    const { email, otp, password } = req.body;
+
+    if (!otpStore[email]) {
+
+        return res.json({
+            success: false,
+            message: "OTP सापडला नाही."
+        });
+
+    }
+
+    if (Date.now() > otpStore[email].expires) {
+
+        delete otpStore[email];
+
+        return res.json({
+            success: false,
+            message: "OTP Expired"
+        });
+
+    }
+
+    if (otpStore[email].otp !== otp) {
+
+        return res.json({
+            success: false,
+            message: "Wrong OTP"
+        });
+
+    }
+
+    let users = getUsers();
+
+    const user = users.find(u => u.email === email);
+
+    if (!user) {
+
+        return res.json({
+            success: false,
+            message: "User सापडला नाही."
+        });
+
+    }
+
+    user.password = await bcrypt.hash(password, 10);
+
+    saveUsers(users);
+
+    delete otpStore[email];
+
+    res.json({
+
+        success: true,
+
+        message: "Password Reset Successful"
+
+    });
+
+});
+
+// ==========================
+// User Login
+// ==========================
+
+app.post("/api/login", async (req, res) => {
+
+    const { mobile, password } = req.body;
+
+    let users = getUsers();
+
+    const user = users.find(u => u.mobile === mobile);
+
+    if (!user) {
+
+        return res.json({
+            success: false,
+            message: "User सापडला नाही."
+        });
+
+    }
+
+    const match = await bcrypt.compare(password, user.password);
+
+    if (!match) {
+
+        return res.json({
+            success: false,
+            message: "Password चुकीचा आहे."
+        });
+
+    }
+
+    res.json({
+
+        success: true,
+
+        user: {
+            id: user.id,
+            name: user.name,
+            mobile: user.mobile
+        }
+
+    });
+
+});
+
+app.get("/api/profile/:mobile", (req, res) => {
+
+    const users = getUsers();
+
+    const user = users.find(u => u.mobile === req.params.mobile);
+
+    if (!user) {
+
+        return res.status(404).json({
+            success: false,
+            message: "User Not Found"
+        });
+
+    }
+
+    res.json({
+
+        success: true,
+
+     user: {
+
+    id: user.id,
+    name: user.name,
+    mobile: user.mobile,
+    address: user.address || "",
+    photo: user.photo || "images/logo.png"
+
+}
+
+    });
+
+});
+
+app.post("/api/profile/address", (req, res) => {
+
+    const { mobile, address } = req.body;
+
+    let users = getUsers();
+
+    const index = users.findIndex(u => u.mobile === mobile);
+
+    if (index === -1) {
+
+        return res.json({
+            success: false,
+            message: "User Not Found"
+        });
+
+    }
+
+    users[index].address = address;
+
+    saveUsers(users);
+
+    res.json({
+        success: true,
+        message: "Address Saved Successfully"
+    });
+
+});
+
+
+app.post("/api/profile/photo", upload.single("photo"), (req, res) => {
+
+    console.log(req.file);
+    console.log(req.body);
+
+    const { mobile } = req.body;
+
+    let users = getUsers();
+
+    const user = users.find(u => u.mobile === mobile);
+
+    if (!user) {
+
+        return res.json({
+            success: false,
+            message: "User not found"
+        });
+
+    }
+
+user.photo = "/images/" + req.file.filename;
+    saveUsers(users);
+
+    res.json({
+
+        success: true,
+
+        photo: user.photo
+
+    });
+
+});
 
 app.post("/api/create-order", async (req, res) => {
 
@@ -101,12 +560,15 @@ app.post("/api/create-order", async (req, res) => {
 
     }
 
-});
+}); 
 app.post('/api/orders', (req, res) => {
+    console.log("========= ORDER RECEIVED =========");
+console.log(req.body);
+console.log("==================================");
 
     const orders = readDiary('orders.json');
 
-    const newOrder = {
+   /* const newOrder = {
 
         orderId: 'ORD' + Date.now(),
 
@@ -124,7 +586,36 @@ app.post('/api/orders', (req, res) => {
 
         status: "Pending"
 
-    };
+    };*/
+
+    const newOrder = {
+
+    orderId: 'ORD' + Date.now(),
+
+    customerName: req.body.name,
+
+    phone: req.body.phone,
+
+    address: req.body.address,
+
+    items: req.body.items,
+
+    totalAmount: req.body.totalAmount,
+
+    date: new Date().toLocaleDateString(),
+
+    status: "Pending",
+
+    paymentMethod:
+        req.body.paymentMethod || "Cash On Delivery",
+
+    paymentStatus:
+        req.body.paymentStatus || "Pending",
+
+    transactionId:
+        req.body.transactionId || ""
+
+};
 
     orders.push(newOrder);
 
@@ -334,6 +825,26 @@ app.get("/api/feedbacks", (req,res)=>{
     const feedbacks = readDiary("feedbacks.json");
 
     res.json(feedbacks);
+
+});
+
+// ==========================
+// User Order History
+// ==========================
+
+app.get("/api/user/orders/:mobile", (req, res) => {
+
+    const orders = readDiary("orders.json");
+const mobile = req.params.mobile.replace(/^0/, "");
+
+const userOrders = orders.filter(order => {
+
+    const phone = String(order.phone).replace(/^0/, "");
+
+    return phone === mobile;
+
+});
+    res.json(userOrders);
 
 });
 
